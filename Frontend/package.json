@@ -1,0 +1,51 @@
+{
+  "name": "bachelor_project_frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.1.2",
+    "@material-ui/icons": "^3.0.2",
+    "axios": "^0.18.1",
+    "classnames": "^2.2.6",
+    "clsx": "^1.1.1",
+    "echarts": "^4.1.0",
+    "echarts-for-react": "^2.0.15-beta.1",
+    "lodash": "^4.17.15",
+    "material-auto-rotating-carousel": "^3.0.1",
+    "material-ui-slider": "^3.0.8",
+    "ol": "^5.3.3",
+    "react": "^16.8.4",
+    "react-custom-scrollbars": "^4.2.1",
+    "react-dom": "^16.8.4",
+    "react-redux": "^6.0.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.8",
+    "react-svgmt": "^1.1.11",
+    "react-swipeable-views": "^0.13.3",
+    "recharts": "^1.8.5",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build-mockup": "rm -r build && cp src/redux/apis.mockup.js src/redux/apis.js && react-scripts build && cp src/redux/apis.local.js src/redux/apis.js",
+    "build-prod": "rm -r build && cp src/redux/apis.prod.js src/redux/apis.js && react-scripts build && cp src/redux/apis.local.js src/redux/apis.js",
+    "deploy-mockup": "cp s3-bucket-policy_mockup.json s3-bucket-policy.json && aws s3 sync build/ s3://bbbmockup",
+    "deploy-prod": "cp s3-bucket-policy_production.json s3-bucket-policy.json && aws s3 sync build/ s3://appblockbyblock",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "redux-devtools-extension": "^2.13.8",
+    "redux-logger": "^3.0.6"
+  }
+}
