@@ -17,8 +17,8 @@ dotenv.config();
 //  	console.log('Update the Database structure { alter: true }');
 // });
 
- // force: true will drop the table if it already exists
- /*db.sequelize.sync({force: true}).then(() => {
+ //force: true will drop the table if it already exists
+/*  db.sequelize.sync({force: true}).then(() => {
    console.log('Drop and Resync with { force: true }');
    initial();
  });
@@ -38,7 +38,7 @@ dotenv.config();
  		id: 3,
  		name: "SHOP_OWNER"
  	});
- }*/
+ } */
 
 const PORT = process.env.PORT || 3006;
 

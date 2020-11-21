@@ -13,6 +13,14 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.DECIMAL(10,2),
             allowNull: false
         },
+        id_location: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        id_dataset: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
         createdAt: {
             allowNull: false,
             defaultValue: new Date(),

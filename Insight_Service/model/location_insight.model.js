@@ -1,20 +1,13 @@
 module.exports = (sequelize, Sequelize) => {
-	const ZonesData = sequelize.define('zones_data', {
-        id_zone_data: {
+    return sequelize.define('location_insight', {
+        id_insight: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            autoIncrement: true,
+            allowNull: false
         },
         id_location: {
             type: Sequelize.INTEGER,
-            allowNull: false
-        },
-        id_dataset: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        },
-        zone_total: {
-            type: Sequelize.INTEGER,
+            primaryKey: true,
             allowNull: false
         },
         createdAt: {
@@ -27,7 +20,5 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: new Date(),
             type: Sequelize.DATE
         }
-	});
-	
-	return ZonesData;
+    });
 }

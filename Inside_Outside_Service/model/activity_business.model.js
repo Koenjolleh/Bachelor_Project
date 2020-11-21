@@ -1,27 +1,25 @@
 module.exports = (sequelize, Sequelize) => {
-	const SharedLocation = sequelize.define('shared_locations', {
-        id_sh_location: {
+	const BusinessActivities = sequelize.define('business_activities', {
+		id_activity_b: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
         },
-        id_user: {
+        id_location: {
             type: Sequelize.INTEGER,
             allowNull: false
         },
-        state: {
-            type: Sequelize.BOOLEAN,
+        activity_number: {
+            type: Sequelize.INTEGER,
             allowNull: false
         },
-        createdAt: {
-            allowNull: false,
-            defaultValue: new Date(),
-            type: Sequelize.DATE
+        activity_name: {
+            type: Sequelize.STRING,
+            allowNull: false
         },
-        updatedAt: {
-            allowNull: false,
-            defaultValue: new Date(),
-            type: Sequelize.DATE
+        description: {
+            type: Sequelize.TEXT,
+            allowNull: true
         },
         createdAt: {
             allowNull: false,
@@ -34,6 +32,6 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.DATE
         }
 	});
-    
-	return SharedLocation;
+	
+	return BusinessActivities;
 }

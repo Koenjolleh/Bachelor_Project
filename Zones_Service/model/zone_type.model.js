@@ -5,6 +5,10 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
+        id_location: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
         zone_type_number: {
             type: Sequelize.INTEGER,
             allowNull: true

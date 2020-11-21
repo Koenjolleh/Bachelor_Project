@@ -1,4 +1,4 @@
-const express = require('express');
+const express =  require('express');
 const dotenv = require('dotenv');
 const helmet = require('helmet');
 const Cors = require('cors');
@@ -9,38 +9,38 @@ const passport = require('passport');
 const app = express();
 dotenv.config();
 
-const db = require('./config/db.config');
-const Role = db.role;
+ const db = require('./config/db.config');
+ const Role = db.role;
 
 //Only update the structure of the database without delete the data
 // db.sequelize.sync({alter: true}).then(() => {
 //  	console.log('Update the Database structure { alter: true }');
 // });
 
-// force: true will drop the table if it already exists
-/*db.sequelize.sync({force: true}).then(() => {
-  console.log('Drop and Resync with { force: true }');
-  initial();
-});
+ // force: true will drop the table if it already exists
+ /*db.sequelize.sync({force: true}).then(() => {
+   console.log('Drop and Resync with { force: true }');
+   initial();
+ });
 
-function initial(){
-	 Role.create({
-		   id: 1,
-		   name: "ADMIN"
-	 });
+ function initial(){
+ 	Role.create({
+ 		id: 1,
+ 		name: "ADMIN"
+ 	});
 	
-	 Role.create({
-		   id: 2,
-		   name: "BROKER"
-	 });
+ 	Role.create({
+ 		id: 2,
+ 		name: "BROKER"
+ 	});
 	
-   Role.create({
-		   id: 3,
-		   name: "SHOP_OWNER"
-	 });
-}*/
+	Role.create({
+ 		id: 3,
+ 		name: "SHOP_OWNER"
+ 	});
+ }*/
 
-const PORT = process.env.PORT || 3007;
+const PORT = process.env.PORT || 3004;
 
 require('./config/passport');
 
@@ -57,7 +57,8 @@ app.get('/', (req, res, next) => {
 });
 
 
-require('./zones-service/routes/')(app);
+require('./inside-service/routes/')(app);
+require('./outside-service/routes/')(app);
 
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

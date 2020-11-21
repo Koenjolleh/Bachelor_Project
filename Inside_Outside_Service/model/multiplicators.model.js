@@ -1,27 +1,25 @@
 module.exports = (sequelize, Sequelize) => {
-	const SharedLocation = sequelize.define('shared_locations', {
-        id_sh_location: {
+    const Multiplicators = sequelize.define('multiplicators', {
+        id_multiplicator: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
         },
-        id_user: {
+        id_location: {
             type: Sequelize.INTEGER,
             allowNull: false
         },
-        state: {
-            type: Sequelize.BOOLEAN,
+        id_service: {
+            type: Sequelize.INTEGER,
             allowNull: false
         },
-        createdAt: {
-            allowNull: false,
-            defaultValue: new Date(),
-            type: Sequelize.DATE
+        hour: {
+            type: Sequelize.INTEGER,
+            allowNull: true
         },
-        updatedAt: {
-            allowNull: false,
-            defaultValue: new Date(),
-            type: Sequelize.DATE
+        multiplicator_value: {
+            type: Sequelize.FLOAT,
+            allowNull: false
         },
         createdAt: {
             allowNull: false,
@@ -33,7 +31,7 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: new Date(),
             type: Sequelize.DATE
         }
-	});
+    });
     
-	return SharedLocation;
+    return Multiplicators;
 }
