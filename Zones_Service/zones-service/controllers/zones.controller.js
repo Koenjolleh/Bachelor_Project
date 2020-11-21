@@ -1,7 +1,7 @@
 const passport = require('passport');
 
 //DB
-const db = require('../config/db.config');
+const db = require('../../config/db.config');
 
 //Helpers
 const queryBuilderZones = require('../query_builders/zones.query_builder');

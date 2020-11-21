@@ -57,7 +57,7 @@ app.get('/', (req, res, next) => {
 });
 
 
-require('./routes/')(app);
+require('./zones-service/routes/')(app);
 
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
