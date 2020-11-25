@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "install-all-packages": "cd Zones_Service && npm install && cd .. && cd User_Service && npm install && cd .. && cd Location_Service && npm install && cd .. && cd Insight_Service && npm install && cd .. && cd Inside_Outside_Service && npm install && cd .. && cd Frontend && npm install && cd .. && cd Dashboard_Service && npm install"
+    "install-all-packages": "cd Zones_Service && npm install && cd .. && cd User_Service && npm install && cd .. && cd Location_Service && npm install && cd .. && cd Insight_Service && npm install && cd .. && cd Inside_Outside_Service && npm install && cd .. && cd Frontend && npm install && cd .. && cd Dashboard_Service && npm install && cd .. && cd API_Consumer && npm install"
 
   }
 }

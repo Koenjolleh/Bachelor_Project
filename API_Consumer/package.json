@@ -1,5 +1,5 @@
 {
-  "name": "bachelor_project_dashboard_service",
+  "name": "bachelor_project_api_consumer",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
