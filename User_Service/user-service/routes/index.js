@@ -16,7 +16,12 @@ module.exports = function(app) {
     
     /** USER FUNCTIONS? */
     app.get('/api/user_service/getownersofbroker/:id_user', middlewareValidator.middlewareValidatorParams(schemas.userid, 'params'), userController.getOwnersOfBroker)
-    app.get('/api/location_service/getownersdependentonbroker', middlewareValidator.middlewareValidatorBody(schemas.getownersdependentonbroker,'body'), userController.getOwnersDependentOnBroker);
-    app.delete('/api/location_service/removeownerdependentonbroker', middlewareValidator.middlewareValidatorBody(schemas.removeownerdependentonbroker,'body'), userController.removeOwnerDependentOnBroker);
-    app.put('/api/location_service/updateownerdependentonbroker', middlewareValidator.middlewareValidatorBody(schemas.updateownerdependentonbroker,'body'), userController.updateOwnerDependentOnBroker);
+    app.get('/api/user_service/getownersdependentonbroker', middlewareValidator.middlewareValidatorBody(schemas.getownersdependentonbroker,'body'), userController.getOwnersDependentOnBroker);
+    app.delete('/api/user_service/removeownerdependentonbroker', middlewareValidator.middlewareValidatorBody(schemas.removeownerdependentonbroker,'body'), userController.removeOwnerDependentOnBroker);
+    app.put('/api/user_service/updateownerdependentonbroker', middlewareValidator.middlewareValidatorBody(schemas.updateownerdependentonbroker,'body'), userController.updateOwnerDependentOnBroker);
+
+
+    /** Authentication call from jwt passport in API Composer service */
+    app.get('/api/user_service/getusers/:id_user', middlewareValidator.middlewareValidatorParams(schemas.userid,'params'), userController.getUsers);
+
 }

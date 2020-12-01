@@ -1,4 +1,4 @@
-const express =  require('express');
+const express = require('express');
 const dotenv = require('dotenv');
 const helmet = require('helmet');
 const Cors = require('cors');

@@ -360,6 +360,8 @@ exports.removeOwnerDependentOnBroker = async (req, res, next) => {
   })(req, res, next);
 };
 
+
+
 exports.updateOwnerDependentOnBroker = async (req, res, next) => {
   passport.authenticate('jwt', { session: false }, async (err, user, info) => {
       if (err) console.log(err);
@@ -398,6 +400,32 @@ exports.updateOwnerDependentOnBroker = async (req, res, next) => {
           res.status(403).send('username and jwt token do not match');
       }
   })(req, res, next);
+};
+
+exports.getUsers = async (req, res, next) => {
+  try {
+
+    const { id_user } = req.params;
+    
+    await User.findOne({
+      where: {
+        id_user: id_user
+      },
+    }).then(user => {
+
+      res.status(200).json({ user });
+
+    }).catch(err => {
+
+      console.log('ERROR WHILE RETREIVING USER: ', err);
+      res.status(400).send('ERROR WHILE RETREIVING USER', err);
+
+    });
+
+  } catch (e) {
+      console.error(e);
+  }
+
 };
 
 /** Used to check the roles of the user that send the request and the role of 
