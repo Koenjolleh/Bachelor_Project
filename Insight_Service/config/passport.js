@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const Sequelize = require('sequelize');
 const jwtSecret = require('./config');
+const axios = require('axios');
 
 const BCRYPT_SALT_ROUNDS = 12;
 const Op = Sequelize.Op;
