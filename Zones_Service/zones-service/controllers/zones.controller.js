@@ -14,7 +14,7 @@ exports.getZonesData = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.body.id_user,10)) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user,10)) {
             try {
                 const { id_location, id_day, id_dataset } = req.body;
                 let queryString = '';
@@ -25,8 +25,8 @@ exports.getZonesData = async (req, res, next) => {
                 
                 if (dataZone.length > 0) {
                     data = helperZones.JsonZoneData(dataZone, id_day, id_dataset);
-                    console.log('DATA BYDAY: ', data);
-                    res.status(200).json({ data });
+                    console.log('DATA BYDAY: ', dataZone);
+                    res.status(200).json({ dataZone });
                 } else {
                     console.log('There is not data');
                     res.status(404).send('There is not data');

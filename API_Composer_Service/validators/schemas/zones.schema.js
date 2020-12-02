@@ -2,8 +2,11 @@ const Joi = require('joi');
 
 const schemas = { 
 	
-	id_user: Joi.object().keys({ 
-		id_user: Joi.number().required()
+	zonesData: Joi.object().keys({ 
+		id_user: Joi.number().required(),
+		id_location: Joi.number().required(),
+		id_day: Joi.number().required(),
+		id_dataset: Joi.string().required()
 	})
 
 };
