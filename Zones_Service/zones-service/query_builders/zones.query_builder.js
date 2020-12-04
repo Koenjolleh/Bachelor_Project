@@ -1,5 +1,5 @@
 /** Day */
-exports.ZonesData = (id_location, id_day, id_dataset) => {
+exports.ZonesData = (id_location, id_day) => {
 
     return 'SELECT ' +
         'd.zone_number, ' +
@@ -10,7 +10,8 @@ exports.ZonesData = (id_location, id_day, id_dataset) => {
         'c.zone_category_name, ' +
         'e.id_day, ' +
         'e.day_name, ' +
-        'a.zone_total ' +
+        'a.zone_total, ' +
+        'a.id_dataset ' +
         'FROM zones_data a ' +
         'INNER JOIN zone_types b ON a.id_zone_type = b.id_zone_type ' +
         'INNER JOIN zone_categories c ON a.id_zone_category = c.id_zone_category ' +
