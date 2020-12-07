@@ -48,7 +48,7 @@ exports.getDashboard = async (req, res, next) => {
                     
                 }
                 
-                // Finds all dashboard entries for all locations belonging to the broker that is logged in in conjuction 
+                // Finds all dashboard entries for all locations belonging to the broker that is logged in in conjunction 
                 // with the current dataset (highest dataset number) available for that location.
                 dashboard = await Dashboard.findAll({
                     where: {

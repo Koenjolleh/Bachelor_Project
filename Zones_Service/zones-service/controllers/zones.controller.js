@@ -16,20 +16,20 @@ exports.getZonesData = async (req, res, next) => {
             res.status(401).send(info.message);
         } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user,10)) {
             try {
-                const { id_location, id_day, id_dataset } = req.body;
+                const { id_location, id_day} = req.body;
                 let queryString = '';
                 let data, dataZone = {};
 
-                queryString = queryBuilderZones.ZonesData(id_location, id_day, id_dataset);
+                queryString = queryBuilderZones.ZonesData(id_location, id_day);
                 dataZone = await db.sequelize.query(queryString, { type: db.sequelize.QueryTypes.SELECT });
                 
                 if (dataZone.length > 0) {
-                    data = helperZones.JsonZoneData(dataZone, id_day, id_dataset);
+                    // data = helperZones.JsonZoneData(dataZone, id_day);
                     console.log('DATA BYDAY: ', dataZone);
                     res.status(200).json({ dataZone });
                 } else {
-                    console.log('There is not data');
-                    res.status(404).send('There is not data');
+                    console.log('There is no data');
+                    res.status(404).send('There is no data');
                 }
             } catch (e) {
                 console.error(e);

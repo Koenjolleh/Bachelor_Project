@@ -59,6 +59,7 @@ app.get('/', (req, res, next) => {
 
 require('./inside-service/routes/')(app);
 require('./outside-service/routes/')(app);
+require('./inside-outside-service/routes/')(app);
 
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
