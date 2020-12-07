@@ -75,8 +75,6 @@ exports.BrokerLocations = (id_user) => {
 
     return 'SELECT ' +
         'a.id_location, ' +
-        'c.id_user, ' +
-        'c.name AS owner, ' +
         'a.address, ' +
         'a.total_number_zones, ' +
         'a.floor_plan_link, ' +
@@ -87,8 +85,7 @@ exports.BrokerLocations = (id_user) => {
         'a.id_service ' +
         'FROM locations a ' +
         'INNER JOIN property_types b ON a.id_prop_type = b.id_prop_type ' +
-        'INNER JOIN users c ON a.id_user = c.id_user ' +
-        'WHERE c.id_user = (' + id_user + ') ' +
+        'WHERE a.id_user = (' + id_user + ') ' +
         'AND a.state = true;';
 
 }

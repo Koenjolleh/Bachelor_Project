@@ -15,7 +15,7 @@ exports.getSharedLocations = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user,10)) {
             try {
 
                 let queryString, queryStringDatasetsLocation, queryZoneType, queryZoneCategories, queryBusinessActivities, queryCustomerActivities, queryOutsideActivities = '';
@@ -27,6 +27,7 @@ exports.getSharedLocations = async (req, res, next) => {
                 queryString = queryBuilder.SharedLocations(id_user);
                 location = await db.sequelize.query( queryString, { type: db.sequelize.QueryTypes.SELECT });
                 id_locations = location.map(l => { return l.id_location; }).join(',');
+/*
 
                 // data about datasets of the locations
                 queryStringDatasetsLocation = queryBuilder.DatasetsLocation(id_locations);
@@ -51,6 +52,7 @@ exports.getSharedLocations = async (req, res, next) => {
                 // data about OutsideActivities of the locations
                 queryOutsideActivities = queryBuilder.OutsideActivities(id_locations);
                 dataOutsideActivities = await db.sequelize.query(queryOutsideActivities, { type: db.sequelize.QueryTypes.SELECT });
+*/
 
                 if (location.length > 0) {
                     data = helper.JsonSharedLocations(location, datasetsLocation, dataZoneTypes, dataZoneCategories, dataBusinessActivities, dataCustomerActivities, dataOutsideActivities);
@@ -77,7 +79,7 @@ exports.getBrokerLocations = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user,10)) {
             try {
 
                 let queryString, queryStringDatasetsLocation, queryZoneType, queryZoneCategories, queryBusinessActivities, queryCustomerActivities, queryOutsideActivities = '';
@@ -90,6 +92,7 @@ exports.getBrokerLocations = async (req, res, next) => {
                 locations = await db.sequelize.query( queryString, { type: db.sequelize.QueryTypes.SELECT });
                 id_locations = locations.map(l => { return l.id_location; }).join(',');
 
+/*
                 // data about datasets of the locations
                 queryStringDatasetsLocation = queryBuilder.DatasetsLocation(id_locations);
                 datasetsLocation = await db.sequelize.query(queryStringDatasetsLocation, { type: db.sequelize.QueryTypes.SELECT });
@@ -113,6 +116,7 @@ exports.getBrokerLocations = async (req, res, next) => {
                 // data about OutsideActivities of the locations
                 queryOutsideActivities = queryBuilder.OutsideActivities(id_locations);
                 dataOutsideActivities = await db.sequelize.query(queryOutsideActivities, { type: db.sequelize.QueryTypes.SELECT });
+*/
 
                 if (locations.length > 0) {
                     // Using JsonSharedLocations because it's essentially the same thing we need
@@ -140,7 +144,7 @@ exports.getLocationDetails = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user,10)) {
             try {
                 
                 let queryString, queryStringDatasetsLocation, queryZoneType, queryZoneCategories, queryBusinessActivities, queryCustomerActivities, queryOutsideActivities = '';
@@ -201,7 +205,7 @@ exports.shareLocationWithOwner = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user,10)) {
             try {
 
                 let queryString, insertConfirmation = ''; 
@@ -230,7 +234,7 @@ exports.removeLocationFromOwner = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user,10)) {
             try {
 
                 let queryString, deleteConfirmation = ''; 
@@ -259,7 +263,7 @@ exports.addLocationForBroker = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user,10)) {
             if(await isRole('admin', req.body.id_user) === true && await isRole('broker', req.body.id_broker) === true){
                 try {
 
@@ -306,7 +310,7 @@ exports.updateLocationForBroker = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user,10)) {
             if(await isRole('admin', req.body.id_user) === true && await isRole('broker', req.body.id_broker) === true){
                 try {
                     
@@ -350,7 +354,7 @@ exports.removeLocationFromBroker = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user,10)) {
             if(await isRole('admin', req.body.id_user) === true && await isRole('broker', req.body.id_broker) === true){
                 try {
                     
@@ -385,7 +389,7 @@ exports.getDatasetsFromLocation = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user,10)) {
             if(await isRole('admin', req.body.id_user) === true){
                 try {
                     
@@ -419,7 +423,7 @@ exports.addDatasetForLocation = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user,10)) {
             if(await isRole('admin', req.body.id_user) === true){
                 try {
                     let queryString, insertConfirmation = '';
@@ -455,7 +459,7 @@ exports.updateDatasetForLocation = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user,10)) {
             if(await isRole('admin', req.body.id_user) === true){
                 try {
                     let queryString, updateConfirmation = '';
@@ -491,7 +495,7 @@ exports.removeDatasetFromLocation = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user,10)) {
             if(await isRole('admin', req.body.id_user) === true){
                 try {
                     let queryString, deleteConfirmation = '';
