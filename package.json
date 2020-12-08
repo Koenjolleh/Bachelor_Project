@@ -1,13 +1,14 @@
 {
   "scripts": {
-    "install-all-packages": "cd Zones_Service && npm install && cd .. && cd User_Service && npm install && cd .. && cd Location_Service && npm install && cd .. && cd Insight_Service && npm install && cd .. && cd Inside_Outside_Service && npm install && cd .. && cd Frontend && npm install && cd .. && cd Dashboard_Service && npm install && cd .. && cd API_Composer_Service && npm install",
+    "install-all-packages": "npm install && cd Zones_Service && npm install && cd .. && cd User_Service && npm install && cd .. && cd Location_Service && npm install && cd .. && cd Insight_Service && npm install && cd .. && cd Inside_Outside_Service && npm install && cd .. && cd Frontend && npm install && cd .. && cd Dashboard_Service && npm install && cd .. && cd API_Composer_Service && npm install",
     "nodemon-zone-service": "cd Zones_Service && nodemon start",
     "nodemon-user-service": "cd User_Service && nodemon start",
     "nodemon-location-service": "cd Location_Service && nodemon start",
     "nodemon-insight-service": "cd Insight_Service && nodemon start",
     "nodemon-inside-outside-service": "cd Inside_Outside_Service && nodemon start",
     "nodemon-dashboard-service": "cd Dashboard_Service && nodemon start",
-    "start-all-services": "concurrently npm:nodemon-zone-service npm:nodemon-user-service npm:nodemon-location-service npm:nodemon-insight-service npm:nodemon-inside-outside-service npm:nodemon-dashboard-service"
+    "nodemon-api-composer-service": "cd API_Composer_Service && nodemon start",
+    "start-all-services": "concurrently npm:nodemon-zone-service npm:nodemon-user-service npm:nodemon-location-service npm:nodemon-insight-service npm:nodemon-inside-outside-service npm:nodemon-dashboard-service npm:nodemon-api-composer-service"
   },
   "dependencies": {
     "concurrently": "^5.3.0"
