@@ -11,7 +11,7 @@ exports.getZonesData = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 
                 const { id_user, id_location, id_day, id_dataset } = req.body;
@@ -44,7 +44,7 @@ exports.getZonesData = async (req, res, next) => {
                 }
                 ).catch( err => {
                     console.log('Error while retrieving data from inside_outside service');
-                    res.status(404).send('Error while retrieving data from inside_outside service');
+                    res.status(404).send('Error while retrieving data from inside_outside service', err);
                 });
 
                 /** Waits for the service calls to complete and sends a respond to the client */
@@ -63,7 +63,9 @@ exports.getZonesData = async (req, res, next) => {
                             console.log('There is no data');
                             res.status(404).send('There is no data');
                         }
-                });            
+                }).catch(err =>{
+                    throw err
+                });
 
             } catch (e) {
                 console.error(e);
