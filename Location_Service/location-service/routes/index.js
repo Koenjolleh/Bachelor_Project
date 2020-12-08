@@ -23,9 +23,6 @@ module.exports = function(app) {
     app.post('/api/location_service/adddatasetforlocation', middlewareValidator.middlewareValidatorBody(schemas.adddatasetforlocation,'body'), locationController.addDatasetForLocation);
     app.put('/api/location_service/updatedatasetforlocation', middlewareValidator.middlewareValidatorBody(schemas.updatedatasetforlocation,'body'), locationController.updateDatasetForLocation);
     app.delete('/api/location_service/removedatasetfromlocation', middlewareValidator.middlewareValidatorBody(schemas.removedatasetfromlocation,'body'), locationController.removeDatasetFromLocation);
-    
-    /** Get Customer(broker) List from admin */
-    app.get('/api/location_service/getAdminListAllCustomers/:id_user', middlewareValidator.middlewareValidatorParams(adminSchemas.GetAdminListAllCustomers, 'params'), adminController.getAdminListAllCustomers)
 
     /** Admin: List all the locations from a specific Broker */
     app.get('/api/location_service/getAdminListAllLocationsFromBroker/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.GetAdminListAllLocationsFromBroker, 'body'),adminController.getAdminListAllLocationsFromBroker)

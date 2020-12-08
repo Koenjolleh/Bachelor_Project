@@ -1,10 +1,13 @@
 const Joi = require('joi');
 const constants = require('./constants.schema');
-const { JsonSharedLocations } = require('../../helpers/location.helper');
+const { JsonSharedLocations } = require('../../helpers/user.helper');
 
 const schemas = {
     location: Joi.object().keys({
         id_user: constants.id_user_validation
+    }),
+
+    GetAdminListAllCustomers: Joi.object().keys({
     }),
 
     GetAdminListAllLocationsFromBroker: Joi.object().keys({

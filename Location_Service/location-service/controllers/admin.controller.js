@@ -7,46 +7,6 @@ const db = require('../../config/db.config');
 const queryBuilder = require('../query_builders/admin.query_builder');
 const helper = require('../helpers/admin.helper');
 
-
-exports.getAdminListAllCustomers = async (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
-        if (err) console.log(err);
-        if (info !== undefined) {
-            console.log(info.message);
-            res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
-            try {
-                let queryAdminListAllCustomers = '';
-
-                let data, customerList  = {};
-
-
-                // Check if user is admin
-                if (await isRole("ADMIN", user.id_user)) {
-
-                    queryAdminListAllCustomers= queryBuilder.GetAdminListAllCustomers();
-                    customerList = await db.sequelize.query(queryAdminListAllCustomers, {type: db.sequelize.QueryTypes.SELECT});
-                    console.log(customerList)
-
-                    data = helper.JsonAdminCustomerList(customerList)
-
-                    console.log('Broker: ', data);
-                    res.status(200).json({ data });
-                }
-                else {
-                    console.error('There is no customers for this user. Might not be admin');
-                    res.status(404).send('No customers found');
-                }
-
-            } catch (e) {
-                console.error(e);
-            }
-        } else {
-            console.error('jwt id and username do not match');
-            res.status(403).send('username and jwt token do not match');
-        }
-    })(req, res, next);
-}
 //Send body with "name":"broker"
 exports.getAdminListAllLocationsFromBroker = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {

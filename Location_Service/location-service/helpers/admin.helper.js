@@ -1,12 +1,3 @@
-/** List Customers */
-exports.JsonAdminCustomerList = (customerList) => {
-
-    return customerList.map(d => {
-        return {
-            customerList: d.name
-        };
-    });
-}
 /** List locations of broker */
 exports.JsonAdminListAllLocationsFromBroker = (locationList) => {
 

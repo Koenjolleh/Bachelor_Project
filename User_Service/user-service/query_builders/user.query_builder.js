@@ -13,7 +13,14 @@ exports.BrokerOwners = (id_user) => {
         'ORDER BY name ASC;';
 
 }
-
+/** Admin: List all customers (Brokers) */
+exports.GetAdminListAllCustomers = () => {
+    return "SELECT users.name " +
+        "FROM users " +
+        "INNER JOIN user_roles ON users.id_user = user_roles.id_user " +
+        "INNER JOIN roles ON user_roles.id_role = roles.id_role " +
+        "WHERE roles.name = 'BROKER'"
+}
 /** Is it necessary to do the inner join? users dependent on the broker should all be shop owners anyway.*/
 exports.GetOwnersDependentOnBroker = (id_broker) => {
 

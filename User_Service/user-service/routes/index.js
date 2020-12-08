@@ -1,7 +1,7 @@
 const verifySignUp = require('../controllers/verifySignUp');
 const middlewareValidator = require('../validators/middleware.validator');
 const schemas = require('../validators/schemas/user.schema');
-
+const adminSchemas = require('../validators/schemas/admin.schema')
 module.exports = function(app) {
 
     const userController = require('../controllers/user.controller');
@@ -23,5 +23,9 @@ module.exports = function(app) {
 
     /** Authentication call from jwt passport in API Composer service */
     app.get('/api/user_service/getusers/:id_user', middlewareValidator.middlewareValidatorParams(schemas.userid,'params'), userController.getUsers);
+
+    const adminController = require('../controllers/user.admin.controller')
+    /* ADMIN LOCATION */
+    app.post('/api/user_service/getAdminListAllCustomers', middlewareValidator.middlewareValidatorParams(adminSchemas.GetAdminListAllCustomers, 'body'), adminController.getAdminListAllCustomers)
 
 }
