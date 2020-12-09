@@ -2,6 +2,9 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 
+/** Helpers */
+const helper = require('../helpers/dashboard.helper');
+
 exports.getDashboard = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -13,40 +16,82 @@ exports.getDashboard = async (req, res, next) => {
 
                 const id_user = parseInt(req.params.id_user,10);
                 const authorication_token = req.headers.authorization;
-                let locations, id_locations;
+                let locations, id_locations, id_datasets, dashboard;
 
-                await axios.post(`http://localhost:3002/api/location_service/getLocationsBasedOnRoles`, {
+                /** Retrives data needed from the locations service */
+                locations = axios.post(`http://localhost:3002/api/location_service/getLocationsBasedOnRoles`, {
                     id_user: id_user
                 }, {
                     headers: {
                         'Authorization': `${authorication_token}`
                     }
-                }).then( res => {
-                    console.log('Found locations based on role');
-                    locations = res.data.locations;
                 }).catch( () => {
                     console.log('Error while retrieving locations');
                     res.status(404).send('Error while retrieving locations');
                 });
 
-                /** This string literal should be a call in the api composer to the location and send the result here */
-                // [Op.in]: sequelize.literal('(SELECT id_location FROM locations WHERE id_user = '+id_user+')')
-                /** This is the same as the above we just need to send it to the dashboard service to fit in the string literal */
-
-                /** Makes and array of all the location id's of the retrieved locations from the location service
-                 *  to send to the dashboard service to part of a sub query
-                */
-                id_locations = locations.map(d => {
-                    return d.id_location;
+                /** Retrives data needed from the inside-outside service */
+                id_datasets = axios.post(`http://localhost:3004/api/inside_outside/getrecentdatasets`, {
+                    id_user: id_user
+                }, {
+                    headers: {
+                        'Authorization': `${authorication_token}`
+                    }
+                }).catch( () => {
+                    console.log('Error while retrieving datasets');
+                    res.status(404).send('Error while retrieving datasets');
                 });
 
-                console.log(id_locations);
 
+                /** Waits for the service calls to complete and sends a respond to the client */
+                await Promise.all([locations, id_datasets])
+                    .then( results => {
+                        locations = results[0].data.locations;
+                        id_datasets = results[1].data.data;
+                        /** Makes and array of all the location id's of the retrieved locations from the location service
+                         *  to send to the dashboard service to part of a sub query
+                        */
+                        id_locations = locations.map(d => {
+                            return d.id_location;
+                        });
 
-                /** This string literal should be a call in the api composer to the inside_outside service and send the result here */
-                // [Op.in]: sequelize.literal('(SELECT id_dataset FROM datasets WHERE (dataset_number, id_location) IN (SELECT MAX(dataset_number), id_location FROM datasets GROUP BY id_location))')
+                        console.log('Retrieved data from location and inside-outside service')
+                        
+                    }
+                ).catch(err =>{
+                    throw err
+                });
+
+                /** Awaits the result of the call to the other services since we need them to find the correct data,
+                 *  then retrives the data needed from the dashboard service */
+                await axios.post(`http://localhost:3006/api/dashboard_service/getdashboard`, {
+                    id_user: id_user,
+                    id_locations: id_locations,
+                    id_datasets: id_datasets
+                }, {
+                    headers: {
+                        'Authorization': `${authorication_token}`
+                    }
+                }).then( res => {
+
+                    console.log('Dashboard data found');
+                    dashboard = res.data.dashboard;
+                    
+                }).catch( () => {
+                    console.log('Error while retrieving dashboards');
+                    res.status(404).send('Error while retrieving dashboards');
+                });
                 
-                
+                // Combines the data into a single array and sends it to the client
+                if (dashboard.length > 0) {
+                    data = helper.JsonDashboardOverview(locations, dashboard);
+                    console.log('Dashboard overview: ', data);
+                    res.status(200).json({ data });
+                } else {
+                    console.log('No dashboard found');
+                    res.status(404).send('No dashboard found');
+                };
+
             } catch (e) {
                 console.error(e);
             }   

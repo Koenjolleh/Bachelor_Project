@@ -19,11 +19,11 @@ exports.getDashboard = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
             try {
 
-                const { id_user } = req.params;
-                let dashboard, locations;
+                const { id_user, id_locations, id_datasets } = req.body;
+                let dashboard;
 
                 //** Move these calls to the api composer */
                 // if(await isRole('broker', id_user) === true){
@@ -47,6 +47,8 @@ exports.getDashboard = async (req, res, next) => {
                 //     });
                     
                 // }
+                console.log(id_locations);
+                console.log(id_datasets);
                 
                 // Finds all dashboard entries for all locations belonging to the broker that is logged in in conjunction 
                 // with the current dataset (highest dataset number) available for that location.
@@ -54,23 +56,25 @@ exports.getDashboard = async (req, res, next) => {
                     where: {
                         id_location: {
                             /** This string literal should be a call in the api composer to the location and send the result here */
-                            [Op.in]: sequelize.literal('(SELECT id_location FROM locations WHERE id_user = '+id_user+')')
+                            // [Op.in]: sequelize.literal('(SELECT id_location FROM locations WHERE id_user = '+id_user+')')
+                            [Op.in]: id_locations
                         },
                         id_dataset: {
                             /** This string literal should be a call in the api composer to the inside_outside service and send the result here */
-                            [Op.in]: sequelize.literal('(SELECT id_dataset FROM datasets WHERE (dataset_number, id_location) IN (SELECT MAX(dataset_number), id_location FROM datasets GROUP BY id_location))')
+                            // [Op.in]: sequelize.literal('(SELECT id_dataset FROM datasets WHERE (dataset_number, id_location) IN (SELECT MAX(dataset_number), id_location FROM datasets GROUP BY id_location))')
+                            [Op.in]: id_datasets
                         }
                     }
                 });
 
-                if (locations.length > 0) {
+                if (dashboard.length > 0) {
                     // Combines the data into a single array
-                    data = helper.JsonDashboardOverview(locations, dashboard);
-                    console.log('Dashboard overview: ', data);
-                    res.status(200).json({ data });
+                    // data = helper.JsonDashboardOverview(locations, dashboard);
+                    console.log('Dashboard data found');
+                    res.status(200).json({ dashboard });
                 } else {
-                    console.log('No location found for user');
-                    res.status(404).send('No location found for user');
+                    console.log('No dashboard found for user');
+                    res.status(404).send('No dashboard found for user');
                 };
 
             } catch (e) {
