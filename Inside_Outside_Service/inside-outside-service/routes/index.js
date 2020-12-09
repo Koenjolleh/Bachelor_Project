@@ -9,5 +9,6 @@ module.exports = function(app) {
     /** API Composer calls */
     app.post('/api/inside_outside/getdatasets', middlewareValidator.middlewareValidatorBody(schemas.getdatasetdata, 'body'), insideOutsideController.getDatasetData);
     app.post('/api/inside_outside/getrecentdatasets', middlewareValidator.middlewareValidatorBody(schemas.id_user, 'body'), insideOutsideController.getRecentDatasetData);
-   
+    app.post('/api/inside_outside/getspecificrecentdatasets', middlewareValidator.middlewareValidatorBody(schemas.getspecificdatasetdata, 'body'), insideOutsideController.getSpecificRecentDatasetData);
+    
 }

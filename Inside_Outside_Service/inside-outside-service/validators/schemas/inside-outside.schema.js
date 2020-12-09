@@ -10,6 +10,11 @@ const schemas = {
     getdatasetdata: Joi.object().keys({ 
         id_user: Joi.number().required(),
 		id_dataset: Joi.string().required()
+    }),
+
+    getspecificdatasetdata: Joi.object().keys({
+        id_user: Joi.number().required(),
+        id_location: Joi.number().required()
     })
 	
 }; 

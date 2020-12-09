@@ -64,25 +64,25 @@ exports.getSpecificDashboard = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
             try {
 
-                const { id_user, id_location } = req.body;
+                const { id_user, id_location, id_dataset } = req.body;
                 let dashboard;
 
                 dashboard = await Dashboard.findAll({
                     where: {
                         id_location: id_location,
                         id_dataset: {
-                            [Op.eq]: sequelize.literal('(SELECT id_dataset FROM datasets WHERE (dataset_number, id_location) IN (SELECT MAX(dataset_number), id_location FROM datasets WHERE id_location = '+id_location+' GROUP BY id_location))')
+                            [Op.eq]: id_dataset
                         }
                     }
                 });
 
                 if (dashboard.length > 0) {
-                    data = helper.JsonSpecificDashboardOverview(dashboard);
-                    console.log('Specific dashboard overview: ', data);
-                    res.status(200).json({ data });
+                    // data = helper.JsonSpecificDashboardOverview(dashboard);
+                    console.log('Specific dashboard found');
+                    res.status(200).json({ dashboard });
                 } else {
                     console.log('No dashboard found for user');
                     res.status(404).send('No dashboard found for user');

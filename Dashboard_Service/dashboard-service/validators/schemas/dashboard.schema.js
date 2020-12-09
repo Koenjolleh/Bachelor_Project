@@ -10,7 +10,8 @@ const schemas = {
 
     getspecificdashboard: Joi.object().keys({
         id_user: Joi.number().required(),
-        id_location: Joi.number().required()
+        id_location: Joi.number().required(),
+        id_dataset: Joi.number().required()
     })
 
 }; 

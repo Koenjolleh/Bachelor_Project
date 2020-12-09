@@ -101,3 +101,75 @@ exports.getDashboard = async (req, res, next) => {
         }
     })(req, res, next);
 };
+
+exports.getSpecificDashboard = async (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
+            try {
+
+                const {id_user, id_location} = req.body;
+                const authorication_token = req.headers.authorization;
+                let id_dataset, dashboard;
+
+                /** Retrieves the id_dataset needed for the dashboard query from the inside-outside service */
+                await axios.post(`http://localhost:3004/api/inside_outside/getspecificrecentdatasets`, {
+                    id_user: id_user,
+                    id_location: id_location
+                }, {
+                    headers: {
+                        'Authorization': `${authorication_token}`
+                    }
+                }).then( res => {
+
+                    console.log('id_dataset found ' + res.data.data);
+                    id_dataset = res.data.data;
+                    
+                }).catch( () => {
+                    console.log('Error while retrieving id_dataset');
+                    res.status(404).send('Error while retrieving id_dataset');
+                });
+
+                /** Retrives the specific dashboard in the dashboard service based on the data in the request and the id_dataset from
+                 *  the call to the inside-outside service
+                */
+                await axios.post(`http://localhost:3006/api/dashboard_service/getspecificdashboard`, {
+                    id_user: id_user,
+                    id_location: id_location,
+                    id_dataset: id_dataset
+                }, {
+                    headers: {
+                        'Authorization': `${authorication_token}`
+                    }
+                }).then( res => {
+
+                    console.log('dashboard found ' + res.data.dashboard);
+                    dashboard = res.data.dashboard;
+                    
+                }).catch( () => {
+                    console.log('Error while retrieving dashboard');
+                    res.status(404).send('Error while retrieving dashboard');
+                });
+
+                // Combines the data into a single array and sends it to the client
+                if (dashboard.length > 0) {
+                    data = helper.JsonSpecificDashboardOverview(dashboard);
+                    console.log('Specific dashboard overview: ', data);
+                    res.status(200).json({ data });
+                } else {
+                    console.log('No dashboard found for user');
+                    res.status(404).send('No dashboard found for user');
+                };
+
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            console.error('jwt id and username do not match');
+            res.status(403).send('username and jwt token do not match');
+        }
+    })(req, res, next);
+};
