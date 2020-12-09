@@ -63,7 +63,9 @@ exports.getZonesData = async (req, res, next) => {
                             console.log('There is no data');
                             res.status(404).send('There is no data');
                         }
-                }).catch(err =>{
+                        
+                    }
+                ).catch(err =>{
                     throw err
                 });
 

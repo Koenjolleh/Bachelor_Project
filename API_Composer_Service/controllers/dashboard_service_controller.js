@@ -22,11 +22,16 @@ exports.getDashboard = async (req, res, next) => {
                         'Authorization': `${authorication_token}`
                     }
                 }).then( res => {
+                    console.log('Found locations based on role');
                     locations = res.data.locations;
                 }).catch( () => {
                     console.log('Error while retrieving locations');
                     res.status(404).send('Error while retrieving locations');
                 });
+
+                /** This string literal should be a call in the api composer to the location and send the result here */
+                // [Op.in]: sequelize.literal('(SELECT id_location FROM locations WHERE id_user = '+id_user+')')
+                /** This is the same as the above we just need to send it to the dashboard service to fit in the string literal */
 
                 /** Makes and array of all the location id's of the retrieved locations from the location service
                  *  to send to the dashboard service to part of a sub query
@@ -37,9 +42,6 @@ exports.getDashboard = async (req, res, next) => {
 
                 console.log(id_locations);
 
-                /** This string literal should be a call in the api composer to the location and send the result here */
-                // [Op.in]: sequelize.literal('(SELECT id_location FROM locations WHERE id_user = '+id_user+')')
-                /** This is the same as the above we just need to send it to the dashboard service to fit in the string literal */
 
                 /** This string literal should be a call in the api composer to the inside_outside service and send the result here */
                 // [Op.in]: sequelize.literal('(SELECT id_dataset FROM datasets WHERE (dataset_number, id_location) IN (SELECT MAX(dataset_number), id_location FROM datasets GROUP BY id_location))')
