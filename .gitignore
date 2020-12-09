@@ -79,7 +79,7 @@ typings/
 .idea/sqldialects.xml
 .idea/vcs.xml
 package-lock.json
-
+.idea
 # dependencies
 /node_modules
 /.pnp

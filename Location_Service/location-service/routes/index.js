@@ -31,13 +31,13 @@ module.exports = function(app) {
     app.get('/api/location_service/shareLocationWithOwners/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.ShareLocationWithOwners,'body'),adminController.shareLocationWithOwners)
 
     /** Admin: get schedule */
-    app.get('/api/location_service/getAdminSchedule/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.GetSchedule,'body'),adminController.getAdminSchedule)
+    app.post('/api/location_service/getAdminSchedule', middlewareValidator.middlewareValidatorBody(adminSchemas.GetSchedule,'body'),adminController.getAdminSchedule)
 
     /** Admin: set schedule */
-    app.get('/api/location_service/setAdminSchedule/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.SetSchedule,'body'),adminController.setAdminSchedule)
+    app.post('/api/location_service/setAdminSchedule', middlewareValidator.middlewareValidatorBody(adminSchemas.SetSchedule,'body'),adminController.setAdminSchedule)
 
     /** Admin: update schedule */
-    app.get('/api/location_service/updateAdminSchedule/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.UpdateSchedule,'body'),adminController.updateAdminSchedule)
+    app.post('/api/location_service/updateAdminSchedule', middlewareValidator.middlewareValidatorBody(adminSchemas.UpdateSchedule,'body'),adminController.updateAdminSchedule)
 
     /** Admin: get list customer activities */
     app.get('/api/location_service/getAdminListCustomerActivities/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListCustomerActivities,'body'),adminController.getAdminListCustomerActivities)

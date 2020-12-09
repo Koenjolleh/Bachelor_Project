@@ -14,7 +14,7 @@ exports.getAdminListAllLocationsFromBroker = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryAdminListAllLocationsFromBroker = '';
                 let data,  locationList  = {};
@@ -52,7 +52,7 @@ exports.shareLocationWithOwners = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryShareLocationWithOwner = '';
                 let data,  locationList  = {};
@@ -85,20 +85,21 @@ exports.shareLocationWithOwners = async (req, res, next) => {
 }
 
 /** Admin: Schedule */
+//DONE
 exports.getAdminSchedule = (req,res,next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryGetSchedule = '';
                 let data,  scheduleList  = {};
-
+                console.log(1)
 
                 // Check if user is admin
-                if (await isRole("admin", user.id_user)) {
+                //TODO: add isRole
                     queryGetSchedule= queryBuilder.GetSchedule(req.body.id_location);
                     scheduleList = await db.sequelize.query(queryGetSchedule, {type: db.sequelize.QueryTypes.SELECT});
 
@@ -107,11 +108,8 @@ exports.getAdminSchedule = (req,res,next) => {
 
                     console.log('Schedule: ', data);
                     res.status(200).json({ data });
-                }
-                else {
-                    console.error('No schedule found');
-                    res.status(404).send('No schedule');
-                }
+
+
 
             } catch (e) {
                 console.error(e);
@@ -128,25 +126,22 @@ exports.setAdminSchedule = (req,res,next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  querySetSchedule = '';
                 let  scheduleList  = {};
 
                 // Check if user is admin
-                if (await isRole("admin", user.id_user)) {
-                    querySetSchedule= queryBuilder.SetSchedule(req.body.open_time, req.body.close_time, req.body.open, req.body.id_day,req.body.id_location);
+                //TODO: add isRole
+                    querySetSchedule= queryBuilder.SetSchedule(req.body.open_time, req.body.close_time, req.body.open, req.body.id_day,req.body.id_location,req.body.id_loc_schedule);
                     scheduleList = await db.sequelize.query(querySetSchedule, {type: db.sequelize.QueryTypes.INSERT});
 
 
 
-                    console.log('Inserted: ', req.body.open_time, req.body.close_time, req.body.open, req.body.id_day,req.body.id_location );
+                    console.log('Inserted: ', req.body.open_time, req.body.close_time, req.body.open, req.body.id_day,req.body.id_location, req.body.id_loc_schedule );
                     res.status(200).send('Inserted');
-                }
-                else {
-                    console.error('No schedule found');
-                    res.status(404).send('No schedule found');
-                }
+
+
 
             } catch (e) {
                 console.error(e);
@@ -163,24 +158,20 @@ exports.updateAdminSchedule = (req,res,next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryUpdateSchedule = '';
                 let  scheduleList  = {};
                 // Check if user is admin
-                if (await isRole("admin", user.id_user)) {
-                    queryUpdateSchedule= queryBuilder.SetSchedule(req.body.open_time, req.body.close_time, req.body.open, req.body.id_day,req.body.id_location, req.body.id_loc_schedule);
+                    //TODO: add isRole
+                    queryUpdateSchedule= queryBuilder.UpdateSchedule(req.body.open_time, req.body.close_time, req.body.open, req.body.id_day,req.body.id_location, req.body.id_loc_schedule);
                     scheduleList = await db.sequelize.query(queryUpdateSchedule, {type: db.sequelize.QueryTypes.UPDATE});
 
 
 
                     console.log('Updated: ', req.body.open_time, req.body.close_time, req.body.open, req.body.id_day,req.body.id_location, req.body.id_loc_schedule );
                     res.status(200).send('Updated');
-                }
-                else {
-                    console.error('No schedule found');
-                    res.status(404).send('No schedule found');
-                }
+
 
             } catch (e) {
                 console.error(e);
@@ -199,7 +190,7 @@ exports.getAdminListCustomerActivities = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryGetCustomerActivities = '';
                 let data,  customerActivitiesList  = {};
@@ -236,7 +227,7 @@ exports.setAdminCustomerActivities = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  querySetCustomerActivities = '';
                 let  customerActivitiesList  = {};
@@ -271,7 +262,7 @@ exports.updateAdminCustomerActivities = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryUpdateCustomerActivities = '';
                 let  customerActivitiesList  = {};
@@ -305,7 +296,7 @@ exports.deleteAdminCustomerActivities = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryDeleteCustomerActivities = '';
                 let  customerActivitiesList  = {};
@@ -341,7 +332,7 @@ exports.getAdminListZoneTypes = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryGetZoneTypes = '';
                 let data,  zoneTypesList  = {};
@@ -378,7 +369,7 @@ exports.setAdminZoneTypes = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  querySetZoneTypes = '';
                 let  zoneTypesList  = {};
@@ -413,7 +404,7 @@ exports.updateAdminZoneTypes = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryUpdateZoneTypes = '';
                 let  zoneTypesList  = {};
@@ -447,7 +438,7 @@ exports.deleteAdminZoneTypes = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryDeleteZoneTypes = '';
                 let  zoneTypesList  = {};
@@ -483,7 +474,7 @@ exports.getAdminListZoneCategories = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryGetZoneCategories = '';
                 let data,  zoneCategoriesList  = {};
@@ -520,7 +511,7 @@ exports.setAdminZoneCategories = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  querySetZoneCategories = '';
                 let  zoneCategoriesList  = {};
@@ -555,7 +546,7 @@ exports.updateAdminZoneCategories = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryUpdateZoneCategories = '';
                 let  zoneCategoriesList  = {};
@@ -589,7 +580,7 @@ exports.deleteAdminZoneCategories = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryDeleteZoneCategories = '';
                 let  zoneCategoriesList  = {};
@@ -626,7 +617,7 @@ exports.getAdminListZones = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryGetZones = '';
                 let data,  zonesList  = {};
@@ -663,7 +654,7 @@ exports.setAdminZones = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  querySetZones = '';
                 let  zonesList  = {};
@@ -698,7 +689,7 @@ exports.updateAdminZones = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryUpdateZones = '';
                 let  zonesList  = {};
@@ -732,7 +723,7 @@ exports.deleteAdminZones = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryDeleteZones = '';
                 let  zonesList  = {};
@@ -769,7 +760,7 @@ exports.getAdminListOutsideActivities = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryGetOutsideActivities = '';
                 let data,  outsideActivitiesList  = {};
@@ -806,7 +797,7 @@ exports.setAdminOutsideActivities = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  querySetOutsideActivities = '';
                 let  outsideActivitiesList  = {};
@@ -841,7 +832,7 @@ exports.updateAdminOutsideActivities = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryUpdateOutsideActivities = '';
                 let  outsideActivitiesList  = {};
@@ -875,7 +866,7 @@ exports.deleteAdminOutsideActivities = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryDeleteOutsideActivities = '';
                 let  outsideActivitiesList  = {};
@@ -911,7 +902,7 @@ exports.getAdminListBusinessActivities = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryGetBusinessActivities = '';
                 let data,  businessActivitiesList  = {};
@@ -948,7 +939,7 @@ exports.setAdminBusinessActivities = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  querySetBusinessActivities = '';
                 let  businessActivitiesList  = {};
@@ -983,7 +974,7 @@ exports.updateAdminBusinessActivities = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryUpdateBusinessActivities = '';
                 let  businessActivitiesList  = {};
@@ -1017,7 +1008,7 @@ exports.deleteAdminBusinessActivities = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryDeleteBusinessActivities = '';
                 let  businessActivitiesList  = {};
@@ -1053,7 +1044,7 @@ exports.getAdminListLocations = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryGetLocations = '';
                 let data,  locationsList  = {};
@@ -1090,7 +1081,7 @@ exports.updateAdminLocations = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryUpdateLocations = '';
                 let  locationsList  = {};
@@ -1128,7 +1119,7 @@ exports.getAdminListSharedLocations = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryGetSharedLocations = '';
                 let data,  sharedLocationsList  = {};
@@ -1167,7 +1158,7 @@ exports.updateAdminSharedLocations = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryUpdateSharedLocations = '';
                 let  sharedLocationsList  = {};
@@ -1203,7 +1194,7 @@ exports.deleteAdminSharedLocations = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
                 let  queryDeleteSharedLocations = '';
                 let  sharedLocationsList  = {};

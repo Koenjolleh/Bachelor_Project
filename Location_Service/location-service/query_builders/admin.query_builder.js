@@ -14,14 +14,6 @@ exports.GetUserNameByID = (id_user) => {
         "FROM users " +
         "WHERE users.id_user = " + id_user;
 }
-/** Admin: List all customers (Brokers) */
-exports.GetAdminListAllCustomers = () => {
-    return "SELECT users.name " +
-        "FROM users " +
-        "INNER JOIN user_roles ON users.id_user = user_roles.id_user " +
-        "INNER JOIN roles ON user_roles.id_role = roles.id_role " +
-        "WHERE roles.name = 'BROKER'"
-}
 /** Admin: List all the locations FROM a specific Broker */
 exports.GetAdminListAllLocationsFromBroker = (id_user) => {
     return "SELECT " +
@@ -51,6 +43,7 @@ exports.ShareLocationWithOwner = (id_user, id_location) => {
 
 /** Admin: Schedule */
 /** Admin: Get schedule */
+//DONE
 exports.GetSchedule = (id_location) => {
     return "SELECT " +
         "a.id_loc_schedule," +
@@ -64,9 +57,9 @@ exports.GetSchedule = (id_location) => {
         "INNER JOIN locations c ON a.id_location = c.id_location " +
         "WHERE a.id_location = " + id_location;
 }
-exports.SetSchedule = (open_time, close_time, open, id_day, id_location) =>{
-    return "INSERT INTO schedule_locations (open_time, close_time, open, id_day, id_location) " +
-        "VALUES ('" + open_time + "','" + close_time + "', " + open + ", " + id_day + "," + id_location + ");"
+exports.SetSchedule = (open_time, close_time, open, id_day, id_location, id_loc_schedule) =>{
+    return "INSERT INTO schedule_locations (open_time, close_time, open, id_day, id_location, id_loc_schedule) " +
+        "VALUES ('" + open_time + "','" + close_time + "', " + open + ", " + id_day + "," + id_location + ","+id_loc_schedule+");"
 }
 exports.UpdateSchedule = (open_time, close_time, open, id_day, id_location, id_loc_schedule) =>{
     return "UPDATE schedule_locations " +

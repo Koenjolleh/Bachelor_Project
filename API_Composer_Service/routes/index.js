@@ -11,4 +11,7 @@ module.exports = function(app) {
      const locationController = require('../controllers/location.service.controller')
      /** LOCATION */
      app.post('/api/api_composer/getAdminListAllCustomers',middlewareValidator.middlewareValidatorBody(locationSchema.locationGetAdminScheduleData, 'body'), locationController.getAdminListAllCustomers)
+     app.post('/api/api_composer/getAdminSchedule',middlewareValidator.middlewareValidatorBody(locationSchema.locationGetAdminScheduleData, 'body'), locationController.getAdminSchedule)
+     app.post('/api/api_composer/setAdminSchedule',middlewareValidator.middlewareValidatorBody(locationSchema.SetSchedule, 'body'), locationController.setAdminSchedule)
+     app.post('/api/api_composer/updateAdminSchedule',middlewareValidator.middlewareValidatorBody(locationSchema.SetSchedule, 'body'), locationController.updateAdminSchedule)
 }
