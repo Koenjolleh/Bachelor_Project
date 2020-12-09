@@ -43,7 +43,7 @@ exports.getDashboard = async (req, res, next) => {
                 });
 
 
-                /** Waits for the service calls to complete and sends a respond to the client */
+                /** Waits for the service calls to complete*/
                 await Promise.all([locations, id_datasets])
                     .then( results => {
                         locations = results[0].data.locations;
