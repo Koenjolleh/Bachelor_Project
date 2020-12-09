@@ -25,37 +25,39 @@ exports.getDashboard = async (req, res, next) => {
                 const { id_user } = req.params;
                 let dashboard, locations;
 
-                
-                if(await isRole('broker', id_user) === true){
+                //** Move these calls to the api composer */
+                // if(await isRole('broker', id_user) === true){
                     
-                    // Finds all locations for the broker that is logged in.
-                    locations = await Location.findAll({
-                        where: {
-                            id_user: id_user
-                        }
-                    });
+                //     // Finds all locations for the broker that is logged in.
+                //     locations = await Location.findAll({
+                //         where: {
+                //             id_user: id_user
+                //         }
+                //     });
                     
-                }else{
+                // }else{
                     
-                    // Finds all locations that has been shared with the owner that is logged in.
-                    locations = await Location.findAll({
-                        where: {
-                            id_location: {
-                                [Op.in]: sequelize.literal('(SELECT id_location FROM shared_locations WHERE id_user = '+id_user+')')
-                            }
-                        }
-                    });
+                //     // Finds all locations that has been shared with the owner that is logged in.
+                //     locations = await Location.findAll({
+                //         where: {
+                //             id_location: {
+                //                 [Op.in]: sequelize.literal('(SELECT id_location FROM shared_locations WHERE id_user = '+id_user+')')
+                //             }
+                //         }
+                //     });
                     
-                }
+                // }
                 
                 // Finds all dashboard entries for all locations belonging to the broker that is logged in in conjunction 
                 // with the current dataset (highest dataset number) available for that location.
                 dashboard = await Dashboard.findAll({
                     where: {
                         id_location: {
+                            /** This string literal should be a call in the api composer to the location and send the result here */
                             [Op.in]: sequelize.literal('(SELECT id_location FROM locations WHERE id_user = '+id_user+')')
                         },
                         id_dataset: {
+                            /** This string literal should be a call in the api composer to the inside_outside service and send the result here */
                             [Op.in]: sequelize.literal('(SELECT id_dataset FROM datasets WHERE (dataset_number, id_location) IN (SELECT MAX(dataset_number), id_location FROM datasets GROUP BY id_location))')
                         }
                     }

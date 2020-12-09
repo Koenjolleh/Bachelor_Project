@@ -1,7 +1,11 @@
 const passport = require('passport');
+const axios = require('axios');
+const { sequelize } = require('../../config/db.config');
+const { Op } = require("sequelize");
 
 //Models
 const db = require('../../config/db.config');
+const Location = db.location;
 
 //Helpers
 const queryBuilder = require('../query_builders/location.query_builder');
@@ -517,6 +521,84 @@ exports.removeDatasetFromLocation = async (req, res, next) => {
                 console.error('User not allowed to perform this action');
                 res.status(403).send('User not allowed to perform this action');
             }
+        } else {
+            console.error('jwt id and username do not match');
+            res.status(403).send('username and jwt token do not match');
+        }
+    })(req, res, next);
+};
+
+exports.getLocationsBasedOnRole = async (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
+            try {
+                
+                const { id_user } = req.body;
+                const authorication_token = req.headers.authorization;
+                let user_role_confirmation, locations;
+    
+                user_role_confirmation = await axios.post(`http://localhost:3001/api/user_service/checkUserRole`, {
+                    id_user: id_user,
+                    user_role: 'broker'
+                }, {
+                    headers: {
+                        'Authorization': `${authorication_token}`
+                    }
+                }
+                ).catch( () => {
+                    console.log('Error while checking user role');
+                    res.status(404).send('Error while checking user role');
+                });
+    
+
+                if(user_role_confirmation.data === true){
+                        
+                    // Finds all locations for the broker that is logged in.
+                    locations = await Location.findAll({
+                        attributes: [
+                            'id_location', 
+                            'id_user', 
+                            'address'
+                        ],
+                        where: {
+                            id_user: id_user
+                        }
+                    });
+                    
+                }else{
+                    
+                    // Finds all locations that has been shared with the owner that is logged in.
+                    locations = await Location.findAll({
+                        attributes: [
+                            'id_location', 
+                            'id_user', 
+                            'address'
+                        ],
+                        where: {
+                            id_location: {
+                                [Op.in]: sequelize.literal('(SELECT id_location FROM shared_locations WHERE id_user = '+id_user+')')
+                            }
+                        }
+                    });
+                    
+                }
+
+                if (locations.length > 0) {
+                    console.log('Location data found');
+                    res.status(200).json({ locations });
+                } else {
+                    console.log('There is no location for this user');
+                    res.status(404).send('There is no location for this user');
+                }
+
+            } catch (error) {
+                console.error('Error while retrieving locations: ' + error);
+                res.status(403).send('Error while retrieving locations');
+            }  
         } else {
             console.error('jwt id and username do not match');
             res.status(403).send('username and jwt token do not match');

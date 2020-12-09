@@ -23,6 +23,7 @@ module.exports = function(app) {
 
     /** Authentication call from jwt passport in API Composer service */
     app.get('/api/user_service/getusers/:id_user', middlewareValidator.middlewareValidatorParams(schemas.userid,'params'), userController.getUsers);
+    app.post('/api/user_service/checkUserRole', middlewareValidator.middlewareValidatorBody(schemas.checkuserrole,'body'), userController.checkUserRole);
 
     const adminController = require('../controllers/user.admin.controller')
     /* ADMIN LOCATION */

@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Koenjolleh/Bachelor_Project#readme",
   "dependencies": {
+    "amqplib": "^0.6.0",
     "axios": "^0.21.0",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",

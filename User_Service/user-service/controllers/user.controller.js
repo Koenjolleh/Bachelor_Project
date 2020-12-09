@@ -402,6 +402,7 @@ exports.updateOwnerDependentOnBroker = async (req, res, next) => {
   })(req, res, next);
 };
 
+/** This call is to confirm if the JWT token match the user */
 exports.getUsers = async (req, res, next) => {
   try {
 
@@ -426,6 +427,33 @@ exports.getUsers = async (req, res, next) => {
       console.error(e);
   }
 
+};
+
+exports.checkUserRole = async (req, res, next) => {
+  passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+      if (err) console.log(err);
+      if (info !== undefined) {
+          console.log(info.message);
+          res.status(401).send(info.message);
+      } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        try {
+          const { id_user, user_role} = req.body;
+          let user_role_confirmation;
+  
+          user_role_confirmation = await isRole(user_role, id_user);
+
+          console.error('user role confirmed: ' + user_role_confirmation);
+          res.status(200).send(user_role_confirmation);
+          
+        } catch (error) {
+          console.error('Problem while confirming user role');
+          res.status(403).send('Problem while confirming user role');
+        }  
+      } else {
+          console.error('jwt id and username do not match');
+          res.status(403).send('username and jwt token do not match');
+      }
+  })(req, res, next);
 };
 
 /** Used to check the roles of the user that send the request and the role of 

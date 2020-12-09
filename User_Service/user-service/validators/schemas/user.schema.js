@@ -223,6 +223,11 @@ const schemas = {
 		id_user: Joi.number().required()
 	}),
 
+	checkuserrole: Joi.object().keys({
+		id_user: Joi.number().required(),
+		user_role: Joi.string().required()
+	}),
+
 	getownersdependentonbroker: Joi.object().keys({
 		id_user: Joi.number().required(),
 		id_broker: Joi.number().required()

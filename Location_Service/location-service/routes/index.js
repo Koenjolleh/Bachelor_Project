@@ -125,4 +125,8 @@ module.exports = function(app) {
 
     /** Admin: delete shared locations */
     app.get('/api/location_service/deleteAdminSharedLocations/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.DeleteSharedLocations,'body'),adminController.deleteAdminSharedLocations)
+
+    /** API COMPOSER SERVICE CALLS */
+    app.post('/api/location_service/getLocationsBasedOnRoles', middlewareValidator.middlewareValidatorBody(schemas.location,'body'), locationController.getLocationsBasedOnRole)
+
 }
