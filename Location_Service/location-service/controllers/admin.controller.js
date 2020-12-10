@@ -1,4 +1,5 @@
 const passport = require('passport');
+const axios = require('axios');
 
 //Models
 const db = require('../../config/db.config');
@@ -96,7 +97,7 @@ exports.getAdminSchedule = (req,res,next) => {
             try {
                 let  queryGetSchedule = '';
                 let data,  scheduleList  = {};
-                console.log(1)
+
 
                 // Check if user is admin
                 //TODO: add isRole
@@ -1113,6 +1114,7 @@ exports.updateAdminLocations = (req, res, next) => {
 }
 
 /** Admin: Shared Locations */
+//DONE
 exports.getAdminListSharedLocations = (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -1124,11 +1126,10 @@ exports.getAdminListSharedLocations = (req, res, next) => {
                 let  queryGetSharedLocations = '';
                 let data,  sharedLocationsList  = {};
 
-                console.log(req.body.id_user)
                 // Check if user is admin
-                if (await isRole("admin", user.id_user)) {
-                    if (await isRole("shop_owner", req.body.id_user)){
-                    queryGetSharedLocations= queryBuilder.GetListSharedLocations(req.body.id_location, req.body.id_user);
+                if (await isAdmin) {
+                    if (await isShopOwner) {
+                    queryGetSharedLocations= queryBuilder.GetListSharedLocations(req.body.id_location, req.body.req_id_user);
                     sharedLocationsList = await db.sequelize.query(queryGetSharedLocations, {type: db.sequelize.QueryTypes.SELECT});
 
 
@@ -1152,6 +1153,7 @@ exports.getAdminListSharedLocations = (req, res, next) => {
         }
     })(req, res, next);
 }
+//DONE
 exports.updateAdminSharedLocations = (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -1163,14 +1165,13 @@ exports.updateAdminSharedLocations = (req, res, next) => {
                 let  queryUpdateSharedLocations = '';
                 let  sharedLocationsList  = {};
                 // Check if user is admin
-                if (await isRole("admin", user.id_user)) {
-                    console.log(1)
-                    if(await isRole("shop_owner", req.body.id_user)) {
-                        queryUpdateSharedLocations = queryBuilder.UpdateSharedLocations(req.body.state, req.body.id_location, req.body.id_user);
+                if (await isAdmin) {
+                    if (await isShopOwner) {
+                        queryUpdateSharedLocations = queryBuilder.UpdateSharedLocations(req.body.state, req.body.id_location, req.body.req_id_user);
                         sharedLocationsList = await db.sequelize.query(queryUpdateSharedLocations, {type: db.sequelize.QueryTypes.UPDATE});
 
 
-                        console.log('Updated: ', req.body.state, req.body.id_location, req.body.id_user);
+                        console.log('Updated: ', req.body.state, req.body.id_location, req.body.req_id_user);
                         res.status(200).send('Updated');
                     }
                 }
@@ -1188,6 +1189,7 @@ exports.updateAdminSharedLocations = (req, res, next) => {
         }
     })(req, res, next);
 }
+//DONE
 exports.deleteAdminSharedLocations = (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -1199,8 +1201,8 @@ exports.deleteAdminSharedLocations = (req, res, next) => {
                 let  queryDeleteSharedLocations = '';
                 let  sharedLocationsList  = {};
                 // Check if user is admin
-                if (await isRole("admin", user.id_user)) {
-                    if (await isRole("shop_owner", req.body.id_user)) {
+                if (await isAdmin) {
+                    if (await isShopOwner) {
                         queryDeleteSharedLocations = queryBuilder.DeleteSharedLocations(req.body.id_sh_location);
                         sharedLocationsList = await db.sequelize.query(queryDeleteSharedLocations, {type: db.sequelize.QueryTypes.DELETE});
 
@@ -1223,27 +1225,126 @@ exports.deleteAdminSharedLocations = (req, res, next) => {
         }
     })(req, res, next);
 }
+isShopOwner = async ( req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
+            try {
+
+                const { id_user } = req.body;
+                const authorication_token = req.headers.authorization;
+                let user_role_confirmation;
+
+                user_role_confirmation = await axios.post(`http://localhost:3001/api/user_service/checkUserRole`, {
+                        id_user: id_user,
+                        user_role: 'shop_owner'
+                    }, {
+                        headers: {
+                            'Authorization': `${authorication_token}`
+                        }
+                    }
+                ).catch( () => {
+                    console.log('Error while checking user role');
+                    res.status(404).send('Error while checking user role');
+                });
+
+                return user_role_confirmation
 
 
-isRole = async (role, id_user) => {
-    if (id_user!== undefined) {
 
-        try {
-            let queryRole = '';
-            let userRole = {};
-
-            // Gets user role info
-            queryRole = queryBuilder.GetUserRole(id_user);
-            userRole = await db.sequelize.query(queryRole, {type: db.sequelize.QueryTypes.SELECT});
-
-            // Check if user is the required role
-            return userRole[0].name === role.toUpperCase();
-
-        } catch (e) {
-            console.error(e);
+            } catch (error) {
+                console.error('Error while retrieving locations: ' + error);
+                res.status(403).send('Error while retrieving locations');
+            }
+        } else {
+            console.error('jwt id and username do not match');
+            res.status(403).send('username and jwt token do not match');
         }
-    }
-    else {
-        console.error('Unable to check user role');
-    }
+
+    })(req, res, next);
+}
+isAdmin = async ( req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
+            try {
+
+                const { id_user } = req.body;
+                const authorication_token = req.headers.authorization;
+                let user_role_confirmation;
+
+                user_role_confirmation = await axios.post(`http://localhost:3001/api/user_service/checkUserRole`, {
+                        id_user: id_user,
+                        user_role: 'admin'
+                    }, {
+                        headers: {
+                            'Authorization': `${authorication_token}`
+                        }
+                    }
+                ).catch( () => {
+                    console.log('Error while checking user role');
+                    res.status(404).send('Error while checking user role');
+                });
+
+                return user_role_confirmation
+
+
+
+            } catch (error) {
+                console.error('Error while retrieving locations: ' + error);
+                res.status(403).send('Error while retrieving locations');
+            }
+        } else {
+            console.error('jwt id and username do not match');
+            res.status(403).send('username and jwt token do not match');
+        }
+
+    })(req, res, next);
+}
+isBroker = async ( req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
+            try {
+
+                const { id_user } = req.body;
+                const authorication_token = req.headers.authorization;
+                let user_role_confirmation;
+
+                user_role_confirmation = await axios.post(`http://localhost:3001/api/user_service/checkUserRole`, {
+                        id_user: id_user,
+                        user_role: 'broker'
+                    }, {
+                        headers: {
+                            'Authorization': `${authorication_token}`
+                        }
+                    }
+                ).catch( () => {
+                    console.log('Error while checking user role');
+                    res.status(404).send('Error while checking user role');
+                });
+
+                return user_role_confirmation
+
+
+
+            } catch (error) {
+                console.error('Error while retrieving locations: ' + error);
+                res.status(403).send('Error while retrieving locations');
+            }
+        } else {
+            console.error('jwt id and username do not match');
+            res.status(403).send('username and jwt token do not match');
+        }
+
+    })(req, res, next);
 }

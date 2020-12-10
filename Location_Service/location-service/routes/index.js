@@ -118,11 +118,11 @@ module.exports = function(app) {
     app.get('/api/location_service/updateAdminLocations/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.UpdateLocations,'body'),adminController.updateAdminLocations)
 
     /** Admin: get list shared locations */
-    app.get('/api/location_service/getAdminListSharedLocations/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListSharedLocations,'body'),adminController.getAdminListSharedLocations)
+    app.post('/api/location_service/getAdminListSharedLocations', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListSharedLocations,'body'),adminController.getAdminListSharedLocations)
 
     /** Admin: update shared locations */
-    app.get('/api/location_service/updateAdminSharedLocations/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.UpdateSharedLocations,'body'),adminController.updateAdminSharedLocations)
+    app.post('/api/location_service/updateAdminSharedLocations', middlewareValidator.middlewareValidatorBody(adminSchemas.UpdateSharedLocations,'body'),adminController.updateAdminSharedLocations)
 
     /** Admin: delete shared locations */
-    app.get('/api/location_service/deleteAdminSharedLocations/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.DeleteSharedLocations,'body'),adminController.deleteAdminSharedLocations)
+    app.post('/api/location_service/deleteAdminSharedLocations', middlewareValidator.middlewareValidatorBody(adminSchemas.DeleteSharedLocations,'body'),adminController.deleteAdminSharedLocations)
 }

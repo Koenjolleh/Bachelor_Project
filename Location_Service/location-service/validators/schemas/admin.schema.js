@@ -199,17 +199,22 @@ const schemas = {
 
     GetListSharedLocations: Joi.object().keys({
         id_user: constants.id_user_validation,
-        id_location: constants.id_location_validation
+        id_location: constants.id_location_validation,
+        req_id_user: Joi.number().required()
     }),
 
     UpdateSharedLocations: Joi.object().keys({
         id_user: constants.id_user_validation,
         id_location: constants.id_location_validation,
-        state: Joi.boolean().required()
+        state: Joi.boolean().required(),
+        req_id_user: Joi.number().required()
+
     }),
 
     DeleteSharedLocations: Joi.object().keys({
-        id_sh_location: Joi.number().required()
+        id_sh_location: Joi.number().required(),
+        id_user: constants.id_user_validation
+
     })
 
 
