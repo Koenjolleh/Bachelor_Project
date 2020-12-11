@@ -17,7 +17,7 @@ exports.addInsight = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
             try {
 
                 const insight_description = req.body.description;
@@ -69,7 +69,7 @@ exports.getInsights = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user,10)) {
             try {
 
                 /** Uses sequelize to retrieve all the insights from the insights table */
@@ -102,7 +102,7 @@ exports.updateInsight = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
             try {
 
                 const id_insight = req.body.id_insight;
@@ -145,7 +145,7 @@ exports.removeInsight = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
             try {
 
                 const id_insight = req.body.id_insight;
@@ -193,7 +193,7 @@ exports.addAction = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
             try {
 
                 const action_description = req.body.description;
@@ -233,7 +233,7 @@ exports.updateAction = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
             try {
 
                 const id_action = req.body.id_action;
@@ -274,7 +274,7 @@ exports.updateResult = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
             try {
 
                 const id_action = req.body.id_action;
@@ -315,7 +315,7 @@ exports.updateLearning = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
             try {
 
                 const id_action = req.body.id_action;
@@ -356,7 +356,7 @@ exports.updateTime = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === req.body.id_user) {
+        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
             try {
 
                 const id_action = req.body.id_action;
@@ -399,7 +399,7 @@ exports.getActions = async (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user)) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user)) {
             try {
 
                 await Action.findAll().then(actions => {
@@ -431,14 +431,15 @@ exports.updatePotentialGains = (req, res, next) => {
         if (info !== undefined) {
             console.log(info.message);
             res.status(401).send(info.message);
-        } else if (parseInt(user.id_user,10) === parseInt(req.params.id_user,10)) {
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user,10)) {
             try {
                 let  queryUpdatePotentialGains = '';
                 let  potentialGainsList  = {};
+                
                 // Check if user is admin
 
-                    queryUpdatePotentialGains= queryBuilder.UpdatePotentialGains(req.body.id_pgain, req.body.id_insight, req.body.description);
-                    potentialGainsList = await db.sequelize.query(queryUpdatePotentialGains, {type: db.sequelize.QueryTypes.UPDATE});
+                queryUpdatePotentialGains= queryBuilder.UpdatePotentialGains(req.body.id_pgain, req.body.id_insight, req.body.description);
+                potentialGainsList = await db.sequelize.query(queryUpdatePotentialGains, {type: db.sequelize.QueryTypes.UPDATE});
 
 
                 if (potentialGainsList.length > 0) {
