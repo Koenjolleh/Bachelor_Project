@@ -6,16 +6,20 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const passport = require('passport');
 
+// const environment = process.env.NODE_ENV.trim();
+
 const app = express();
+// app.use(logger('dev', { skip: (req, res) => process.env.NODE_ENV === 'test' }));
 dotenv.config();
 
- const db = require('./config/db.config');
- const Role = db.role;
+const db = require('./config/db.config');
+const Role = db.role;
 
 //Only update the structure of the database without delete the data
 // db.sequelize.sync({alter: true}).then(() => {
-//  	console.log('Update the Database structure { alter: true }');
+// 	console.log('Update the Database structure { alter: true }');
 // });
+
 
  // force: true will drop the table if it already exists
  /*db.sequelize.sync({force: true}).then(() => {
@@ -61,5 +65,6 @@ require('./user-service/routes/')(app);
 
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
 
 module.exports = app;

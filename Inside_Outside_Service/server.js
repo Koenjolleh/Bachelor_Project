@@ -9,8 +9,6 @@ const passport = require('passport');
 const app = express();
 dotenv.config();
 
- const db = require('./config/db.config');
- const Role = db.role;
 
 //Only update the structure of the database without delete the data
 // db.sequelize.sync({alter: true}).then(() => {
@@ -21,24 +19,7 @@ dotenv.config();
  /*db.sequelize.sync({force: true}).then(() => {
    console.log('Drop and Resync with { force: true }');
    initial();
- });
-
- function initial(){
- 	Role.create({
- 		id: 1,
- 		name: "ADMIN"
- 	});
-	
- 	Role.create({
- 		id: 2,
- 		name: "BROKER"
- 	});
-	
-	Role.create({
- 		id: 3,
- 		name: "SHOP_OWNER"
- 	});
- }*/
+ });*/
 
 const PORT = process.env.PORT || 3004;
 
