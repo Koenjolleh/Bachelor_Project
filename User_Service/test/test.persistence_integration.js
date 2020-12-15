@@ -19,7 +19,7 @@ describe('Persistence integration tests', function() {
 
   before(async () => {
 
-    /** Makes sure the database is set up and up to date before running tests */
+    /** Makes sure the database is set to initial state and up to date before running tests */
     await db_setup();
 
     fake_user1 = fake_user();
