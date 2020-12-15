@@ -6,10 +6,8 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const passport = require('passport');
 
-// const environment = process.env.NODE_ENV.trim();
 
 const app = express();
-// app.use(logger('dev', { skip: (req, res) => process.env.NODE_ENV === 'test' }));
 dotenv.config();
 
 const db = require('./config/db.config');
