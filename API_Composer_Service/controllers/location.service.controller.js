@@ -474,7 +474,7 @@ exports.updateAdminCustomerActivities = async (req, res, next) => {
         }
     })(req, res, next);
 };
-
+//DONE
 exports.deleteAdminCustomerActivities = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -517,7 +517,7 @@ exports.deleteAdminCustomerActivities = async (req, res, next) => {
         }
     })(req, res, next);
 };
-
+//DONE
 exports.setAdminOutsideActivities = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -532,7 +532,7 @@ exports.setAdminOutsideActivities = async (req, res, next) => {
                 let location_data, data = {}
 
                 /** Retrives data from the zones service */
-                location_data = await axios.post(`http://localhost:3004/api/inside_outside/setAdminCustomerActivities`, {
+                location_data = await axios.post(`http://localhost:3004/api/inside_outside/setAdminOutsideActivities`, {
                         id_user: id_user,
                         activity_number: activity_number,
                         activity_name: activity_name,
@@ -563,7 +563,7 @@ exports.setAdminOutsideActivities = async (req, res, next) => {
         }
     })(req, res, next);
 };
-
+//DONE
 exports.updateAdminOutsideActivities = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -573,13 +573,14 @@ exports.updateAdminOutsideActivities = async (req, res, next) => {
         } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
 
-                const { id_user, id_location, activity_number, activity_name, description } = req.body;
+                const { id_user, id_location, activity_number, activity_name, description, id_activity_out } = req.body;
                 const authorication_token = req.headers.authorization;
                 let location_data, data = {}
 
                 /** Retrives data from the zones service */
-                location_data = await axios.post(`http://localhost:3004/api/inside_outside/updateAdminCustomerActivities`, {
+                location_data = await axios.post(`http://localhost:3004/api/inside_outside/updateAdminOutsideActivities`, {
                         id_user: id_user,
+                        id_activity_out: id_activity_out,
                         activity_number: activity_number,
                         activity_name: activity_name,
                         description: description,
@@ -609,7 +610,7 @@ exports.updateAdminOutsideActivities = async (req, res, next) => {
         }
     })(req, res, next);
 };
-
+//DONE
 exports.deleteAdminOutsideActivities = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -619,17 +620,14 @@ exports.deleteAdminOutsideActivities = async (req, res, next) => {
         } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
 
-                const { id_user, id_location, activity_number, activity_name, description } = req.body;
+                const { id_user, id_activity_out} = req.body;
                 const authorication_token = req.headers.authorization;
                 let location_data, data = {}
 
                 /** Retrives data from the zones service */
-                location_data = await axios.post(`http://localhost:3004/api/inside_outside/updateAdminCustomerActivities`, {
+                location_data = await axios.post(`http://localhost:3004/api/inside_outside/deleteAdminOutsideActivities`, {
                         id_user: id_user,
-                        activity_number: activity_number,
-                        activity_name: activity_name,
-                        description: description,
-                        id_location: id_location
+                        id_activity_out
                     }, {
                         headers: {
                             'Authorization': `${authorication_token}`
@@ -655,7 +653,7 @@ exports.deleteAdminOutsideActivities = async (req, res, next) => {
         }
     })(req, res, next);
 };
-
+//DONE
 exports.setAdminBusinessActivities = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -670,7 +668,7 @@ exports.setAdminBusinessActivities = async (req, res, next) => {
                 let location_data, data = {}
 
                 /** Retrives data from the zones service */
-                location_data = await axios.post(`http://localhost:3004/api/inside_outside/setAdminCustomerActivities`, {
+                location_data = await axios.post(`http://localhost:3004/api/inside_outside/setAdminBusinessActivities`, {
                         id_user: id_user,
                         activity_number: activity_number,
                         activity_name: activity_name,
@@ -701,7 +699,7 @@ exports.setAdminBusinessActivities = async (req, res, next) => {
         }
     })(req, res, next);
 };
-
+//DONE
 exports.updateAdminBusinessActivities = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -711,13 +709,14 @@ exports.updateAdminBusinessActivities = async (req, res, next) => {
         } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
 
-                const { id_user, id_location, activity_number, activity_name, description } = req.body;
+                const { id_user, id_location, activity_number, activity_name, description, id_activity_b } = req.body;
                 const authorication_token = req.headers.authorization;
                 let location_data, data = {}
 
                 /** Retrives data from the zones service */
-                location_data = await axios.post(`http://localhost:3004/api/inside_outside/updateAdminCustomerActivities`, {
+                location_data = await axios.post(`http://localhost:3004/api/inside_outside/updateAdminBusinessActivities`, {
                         id_user: id_user,
+                        id_activity_b: id_activity_b,
                         activity_number: activity_number,
                         activity_name: activity_name,
                         description: description,
@@ -747,7 +746,7 @@ exports.updateAdminBusinessActivities = async (req, res, next) => {
         }
     })(req, res, next);
 };
-
+//DONE
 exports.deleteAdminBusinessActivities = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -757,17 +756,14 @@ exports.deleteAdminBusinessActivities = async (req, res, next) => {
         } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
             try {
 
-                const { id_user, id_location, activity_number, activity_name, description } = req.body;
+                const { id_user, id_activity_b} = req.body;
                 const authorication_token = req.headers.authorization;
                 let location_data, data = {}
 
                 /** Retrives data from the zones service */
-                location_data = await axios.post(`http://localhost:3004/api/inside_outside/updateAdminCustomerActivities`, {
+                location_data = await axios.post(`http://localhost:3004/api/inside_outside/deleteAdminBusinessActivities`, {
                         id_user: id_user,
-                        activity_number: activity_number,
-                        activity_name: activity_name,
-                        description: description,
-                        id_location: id_location
+                        id_activity_b
                     }, {
                         headers: {
                             'Authorization': `${authorication_token}`
