@@ -77,20 +77,6 @@ exports.GetListCustomerActivities = (id_location) => {
         "INNER JOIN locations b ON a.id_location = b.id_location " +
         "WHERE b.id_location = " + id_location
 }
-exports.SetCustomerActivities = (activity_number, activity_name, description, id_location) => {
-    return "INSERT INTO customer_activities (activity_number, activity_name, description, id_location) " +
-        "VALUES (" + activity_number + ",'" + activity_name + "','" + description + "'," + id_location + ");";
-}
-exports.UpdateCustomerActivities = (activity_number, activity_name, description, id_location, id_activity_c) => {
-    return "UPDATE customer_activities " +
-        "SET activity_number = " + activity_number + ", activity_name = '" + activity_name + "', description = '" + description + "' " +
-        "WHERE customer_activities.id_location = " + id_location + " AND customer_activities.id_activity_c = " + id_activity_c
-}
-exports.DeleteCustomerActivities = (id_activity_c) => {
-    return "DELETE FROM customer_activities " +
-        "WHERE id_activity_c = " + id_activity_c
-
-}
 
 /** Admin Zone types */
 exports.GetListZoneTypes = (id_location) => {
@@ -182,19 +168,7 @@ exports.GetListOutsideActivities = (id_location) => {
         "INNER JOIN locations b ON a.id_location = b.id_location " +
         "WHERE b.id_location = " + id_location
 }
-exports.SetOutsideActivities = (activity_number, activity_name, description, id_location) => {
-    return "INSERT INTO outside_activities (activity_number, activity_name, description, id_location) " +
-        "VALUES (" + activity_number + ",'" + activity_name + "','" + description + "'," + id_location + ");";
-}
-exports.UpdateOutsideActivities = (activity_number, activity_name, description, id_location, id_activity_out) => {
-    return "UPDATE outside_activities " +
-        "SET activity_number = " + activity_number + ", activity_name = '" + activity_name + "', description = '" + description + "' " +
-        "WHERE outside_activities.id_location = " + id_location + " AND outside_activities.id_activity_out = " + id_activity_out
-}
-exports.DeleteOutsideActivities = (id_activity_out) => {
-    return "DELETE FROM outside_activities " +
-        "WHERE id_activity_out = " + id_activity_out
-}
+
 
 /** Admin: Business Activities */
 exports.GetListBusinessActivities = (id_location) => {
@@ -207,19 +181,6 @@ exports.GetListBusinessActivities = (id_location) => {
         "FROM business_activities a " +
         "INNER JOIN locations b ON a.id_location = b.id_location " +
         "WHERE b.id_location = " + id_location
-}
-exports.SetBusinessActivities = (activity_number, activity_name, description, id_location) => {
-    return "INSERT INTO business_activities (activity_number, activity_name, description, id_location) " +
-        "VALUES (" + activity_number + ",'" + activity_name + "','" + description + "'," + id_location + ");";
-}
-exports.UpdateBusinessActivities = (activity_number, activity_name, description, id_location, id_activity_b) => {
-    return "UPDATE business_activities " +
-        "SET activity_number = " + activity_number + ", activity_name = '" + activity_name + "', description = '" + description + "' " +
-        "WHERE business_activities.id_location = " + id_location + " AND business_activities.id_activity_out = " + id_activity_b
-}
-exports.DeleteBusinessActivities = (id_activity_b) => {
-    return "DELETE FROM business_activities " +
-        "WHERE id_activity_b = " + id_activity_b
 }
 
 /** Admin: Location */

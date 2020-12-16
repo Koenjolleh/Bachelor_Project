@@ -45,38 +45,14 @@ module.exports = function(app) {
     /** Admin: get list zone type */
     app.get('/api/location_service/getAdminListZoneTypes/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListZoneTypes,'body'),adminController.getAdminListZoneTypes)
 
-    /** Admin: set zone type */
-    app.get('/api/location_service/setAdminZoneTypes/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.SetZoneTypes,'body'),adminController.setAdminZoneTypes)
-
-    /** Admin: update zone type */
-    app.get('/api/location_service/updateAdminZoneTypes/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.UpdateZoneTypes,'body'),adminController.updateAdminZoneTypes)
-
-    /** Admin: delete zone type */
-    app.get('/api/location_service/deleteAdminZoneTypes/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.DeleteZoneTypes,'body'),adminController.deleteAdminZoneTypes)
 
     /** Admin: get list zone category */
     app.get('/api/location_service/getAdminListZoneCategories/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListZoneCategories,'body'),adminController.getAdminListZoneCategories)
 
-    /** Admin: set zone category */
-    app.get('/api/location_service/setAdminZoneCategories/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.SetZoneCategories,'body'),adminController.setAdminZoneCategories)
-
-    /** Admin: update zone category */
-    app.get('/api/location_service/updateAdminZoneCategories/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.UpdateZoneCategories,'body'),adminController.updateAdminZoneCategories)
-
-    /** Admin: delete zone category */
-    app.get('/api/location_service/deleteAdminZoneCategories/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.DeleteZoneCategories,'body'),adminController.deleteAdminZoneCategories)
 
     /** Admin: get list zones */
     app.get('/api/location_service/getAdminListZones/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListZones,'body'),adminController.getAdminListZones)
 
-    /** Admin: set zones */
-    app.get('/api/location_service/setAdminZones/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.SetZones,'body'),adminController.setAdminZones)
-
-    /** Admin: update zones */
-    app.get('/api/location_service/updateAdminZones/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.UpdateZones,'body'),adminController.updateAdminZones)
-
-    /** Admin: delete zones */
-    app.get('/api/location_service/deleteAdminZones/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.DeleteZones,'body'),adminController.deleteAdminZones)
 
     /** Admin: get list outside activities */
     app.get('/api/location_service/getAdminListOutsideActivities/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListOutsideActivities,'body'),adminController.getAdminListOutsideActivities)

@@ -54,4 +54,29 @@ module.exports = function(app) {
     /** Admin: delete business activities */
     app.post('/api/api_composer/deleteAdminBusinessActivities', locationController.deleteAdminBusinessActivities)
 
+    /** Admin: set zone category */
+    app.post('/api/api_composer/setAdminZoneCategories', locationController.setAdminZoneCategories)
+
+    /** Admin: update zone category */
+    app.post('/api/api_composer/updateAdminZoneCategories', locationController.updateAdminZoneCategories)
+
+    /** Admin: delete zone category */
+    app.post('/api/api_composer/deleteAdminZoneCategories',locationController.deleteAdminZoneCategories)
+    /** Admin: set zone type */
+    app.post('/api/api_composer/setAdminZoneTypes', locationController.setAdminZoneTypes)
+
+    /** Admin: update zone type */
+    app.post('/api/api_composer/updateAdminZoneTypes', locationController.updateAdminZoneTypes)
+
+    /** Admin: delete zone type */
+    app.post('/api/api_composer/deleteAdminZoneTypes', locationController.deleteAdminZoneTypes)
+    /** Admin: set zones */
+    app.post('/api/api_composer/setAdminZones', locationController.setAdminZones)
+
+    /** Admin: update zones */
+    app.post('/api/api_composer/updateAdminZones', locationController.updateAdminZones)
+
+    /** Admin: delete zones */
+    app.post('/api/api_composer/deleteAdminZones', locationController.deleteAdminZones)
+
 }
