@@ -138,27 +138,3 @@ passport.use(
     }
   }),
 );
-
-
-passport.use(
-    'jwt',
-    new JWTstrategy(opts, async (jwt_payload, done) => {
-        try {
-
-            const id_user = jwt_payload.id_user;
-
-            await axios.get(`http://localhost:3001/api/user_service/getusers/${id_user}`).then( user => {
-                if (user) {
-                    console.log('user found in db in passport');
-                    done(null, user);
-                } else {
-                    console.log('user not found in db');
-                    done(null, user);
-                }
-            })
-
-        } catch (err) {
-            done(err);
-        }
-    }),
-);
