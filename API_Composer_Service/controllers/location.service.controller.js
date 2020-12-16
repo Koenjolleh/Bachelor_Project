@@ -14,28 +14,28 @@ exports.getAdminListAllLocationsFromBroker = async (req, res, next) => {
             try {
 
                 const { id_user, req_id_user} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data, user_data, data1,concated = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3002/api/location_service/getAdminListAllLocationsFromBroker`, {
                         id_user: id_user,
                         req_id_user: req_id_user
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
-                /** Retrives datasets data from the inside_outside service */
+                /** Retrieves datasets data from the inside_outside service */
                 user_data = await axios.post(`http://localhost:3001/api/user_service/getAdminListAllLocationsFromBroker`, {
                         id_user: id_user,
                         req_id_user: req_id_user
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
@@ -72,19 +72,19 @@ exports.getAdminListAllCustomers = async (req, res, next) => {
             try {
 
                 const { id_user} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3001/api/user_service/getAdminListAllCustomers`, {
                     id_user: id_user
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -115,20 +115,20 @@ exports.getAdminSchedule = async (req, res, next) => {
             try {
 
                 const { id_user, id_location} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data, user_data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`/api/location_service/getAdminListAllLocationsFromBroker`, {
                         id_user: id_user,
                         id_location: id_location
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -159,10 +159,10 @@ exports.setAdminSchedule = async (req, res, next) => {
             try {
 
                 const { id_user, id_location, open_time, close_time, open, id_day, id_loc_schedule } = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3002/api/location_service/setAdminSchedule`, {
                         id_user: id_user,
                         id_location: id_location,
@@ -173,11 +173,11 @@ exports.setAdminSchedule = async (req, res, next) => {
                         id_loc_schedule: id_loc_schedule
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -208,10 +208,10 @@ exports.updateAdminSchedule = async (req, res, next) => {
             try {
 
                 const { id_user, id_location, open_time, close_time, open, id_day, id_loc_schedule } = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3002/api/location_service/updateAdminSchedule`, {
                         id_user: id_user,
                         id_location: id_location,
@@ -222,11 +222,11 @@ exports.updateAdminSchedule = async (req, res, next) => {
                         id_loc_schedule: id_loc_schedule
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -257,21 +257,21 @@ exports.getAdminListSharedLocations = async (req, res, next) => {
             try {
 
                 const { id_user, id_location, req_id_user} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3002/api/location_service/getAdminListSharedLocations`, {
                         id_user: id_user,
                         req_id_user: req_id_user,
                         id_location: id_location
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -302,10 +302,10 @@ exports.updateAdminSharedLocations = async (req, res, next) => {
             try {
 
                 const { id_user, id_location, req_id_user, state} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3002/api/location_service/updateAdminSharedLocations`, {
                         id_user: id_user,
                         id_location: id_location,
@@ -313,11 +313,11 @@ exports.updateAdminSharedLocations = async (req, res, next) => {
                         state: state
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -348,20 +348,20 @@ exports.deleteAdminSharedLocations = async (req, res, next) => {
             try {
 
                 const { id_user,id_sh_location } = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3002/api/location_service/deleteAdminSharedLocations`, {
                         id_user: id_user,
                         id_sh_location: id_sh_location
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -392,10 +392,10 @@ exports.setAdminCustomerActivities = async (req, res, next) => {
             try {
 
                 const { id_user, id_location, activity_number, activity_name, description } = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3004/api/inside_outside/setAdminCustomerActivities`, {
                         id_user: id_user,
                         activity_number: activity_number,
@@ -404,11 +404,11 @@ exports.setAdminCustomerActivities = async (req, res, next) => {
                         id_location: id_location
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -438,10 +438,10 @@ exports.updateAdminCustomerActivities = async (req, res, next) => {
             try {
 
                 const { id_user, id_location, activity_number, activity_name, description, id_activity_c } = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3004/api/inside_outside/updateAdminCustomerActivities`, {
                         id_user: id_user,
                         id_activity_c: id_activity_c,
@@ -451,11 +451,11 @@ exports.updateAdminCustomerActivities = async (req, res, next) => {
                         id_location: id_location
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -485,20 +485,20 @@ exports.deleteAdminCustomerActivities = async (req, res, next) => {
             try {
 
                 const { id_user, id_activity_c} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3004/api/inside_outside/deleteAdminCustomerActivities`, {
                         id_user: id_user,
                         id_activity_c
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -528,10 +528,10 @@ exports.setAdminOutsideActivities = async (req, res, next) => {
             try {
 
                 const { id_user, id_location, activity_number, activity_name, description } = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3004/api/inside_outside/setAdminOutsideActivities`, {
                         id_user: id_user,
                         activity_number: activity_number,
@@ -540,11 +540,11 @@ exports.setAdminOutsideActivities = async (req, res, next) => {
                         id_location: id_location
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -574,10 +574,10 @@ exports.updateAdminOutsideActivities = async (req, res, next) => {
             try {
 
                 const { id_user, id_location, activity_number, activity_name, description, id_activity_out } = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3004/api/inside_outside/updateAdminOutsideActivities`, {
                         id_user: id_user,
                         id_activity_out: id_activity_out,
@@ -587,11 +587,11 @@ exports.updateAdminOutsideActivities = async (req, res, next) => {
                         id_location: id_location
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -621,20 +621,20 @@ exports.deleteAdminOutsideActivities = async (req, res, next) => {
             try {
 
                 const { id_user, id_activity_out} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3004/api/inside_outside/deleteAdminOutsideActivities`, {
                         id_user: id_user,
                         id_activity_out
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -664,10 +664,10 @@ exports.setAdminBusinessActivities = async (req, res, next) => {
             try {
 
                 const { id_user, id_location, activity_number, activity_name, description } = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3004/api/inside_outside/setAdminBusinessActivities`, {
                         id_user: id_user,
                         activity_number: activity_number,
@@ -676,11 +676,11 @@ exports.setAdminBusinessActivities = async (req, res, next) => {
                         id_location: id_location
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -710,10 +710,10 @@ exports.updateAdminBusinessActivities = async (req, res, next) => {
             try {
 
                 const { id_user, id_location, activity_number, activity_name, description, id_activity_b } = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3004/api/inside_outside/updateAdminBusinessActivities`, {
                         id_user: id_user,
                         id_activity_b: id_activity_b,
@@ -723,11 +723,11 @@ exports.updateAdminBusinessActivities = async (req, res, next) => {
                         id_location: id_location
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -757,20 +757,20 @@ exports.deleteAdminBusinessActivities = async (req, res, next) => {
             try {
 
                 const { id_user, id_activity_b} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3004/api/inside_outside/deleteAdminBusinessActivities`, {
                         id_user: id_user,
                         id_activity_b
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -800,10 +800,10 @@ exports.setAdminZoneCategories = async (req, res, next) => {
             try {
 
                 const { id_user, id_location, zone_category_number, zone_category_name, zone_category_color, description} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3007/api/zones/setAdminZoneCategories`, {
                         id_user: id_user,
                         zone_category_number: zone_category_number,
@@ -813,11 +813,11 @@ exports.setAdminZoneCategories = async (req, res, next) => {
                         id_location: id_location
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -847,10 +847,10 @@ exports.updateAdminZoneCategories = async (req, res, next) => {
             try {
 
                 const { id_user, id_zone_category, id_location, zone_category_number, zone_category_name, zone_category_color, description} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3007/api/zones/updateAdminZoneCategories`, {
                     id_user: id_user,
                     zone_category_number: zone_category_number,
@@ -861,11 +861,11 @@ exports.updateAdminZoneCategories = async (req, res, next) => {
                     id_location: id_location
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -895,20 +895,20 @@ exports.deleteAdminZoneCategories = async (req, res, next) => {
             try {
 
                 const { id_user, id_zone_category} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3007/api/zones/deleteAdminZoneCategories`, {
                         id_user: id_user,
                         id_zone_category: id_zone_category
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -938,10 +938,10 @@ exports.setAdminZones = async (req, res, next) => {
             try {
 
                 const { id_user, id_location, zone_number, zone_floor_number, description} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3007/api/zones/setAdminZones`, {
                         id_user: id_user,
                         zone_number: zone_number,
@@ -950,11 +950,11 @@ exports.setAdminZones = async (req, res, next) => {
                         id_location: id_location
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -984,10 +984,10 @@ exports.updateAdminZones = async (req, res, next) => {
             try {
 
                 const { id_user, id_zone, id_location, zone_number, zone_floor_number,  description} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3007/api/zones/updateAdminZones`, {
                         id_user: id_user,
                         zone_number: zone_number,
@@ -997,11 +997,11 @@ exports.updateAdminZones = async (req, res, next) => {
                         id_location: id_location
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -1031,20 +1031,20 @@ exports.deleteAdminZones = async (req, res, next) => {
             try {
 
                 const { id_user, id_zone} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3007/api/zones/deleteAdminZones`, {
                         id_user: id_user,
                         id_zone: id_zone
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -1074,10 +1074,10 @@ exports.setAdminZoneTypes = async (req, res, next) => {
             try {
 
                 const { id_user, id_location, zone_type_number, zone_type_name,  description} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3007/api/zones/setAdminZoneTypes`, {
                         id_user: id_user,
                         zone_type_number: zone_type_number,
@@ -1086,11 +1086,11 @@ exports.setAdminZoneTypes = async (req, res, next) => {
                         id_location: id_location
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -1120,10 +1120,10 @@ exports.updateAdminZoneTypes = async (req, res, next) => {
             try {
 
                 const { id_user, id_zone_type, id_location, zone_type_number, zone_type_name, description} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3007/api/zones/updateAdminZoneTypes`, {
                         id_user: id_user,
                         zone_type_number: zone_type_number,
@@ -1133,11 +1133,11 @@ exports.updateAdminZoneTypes = async (req, res, next) => {
                         id_location: id_location
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
@@ -1167,20 +1167,20 @@ exports.deleteAdminZoneTypes = async (req, res, next) => {
             try {
 
                 const { id_user, id_zone_type} = req.body;
-                const authorication_token = req.headers.authorization;
+                const authorization_token = req.headers.authorization;
                 let location_data, data = {}
 
-                /** Retrives data from the zones service */
+                /** Retrieves data from the zones service */
                 location_data = await axios.post(`http://localhost:3007/api/zones/deleteAdminZoneTypes`, {
                         id_user: id_user,
                         id_zone_type: id_zone_type
                     }, {
                         headers: {
-                            'Authorization': `${authorication_token}`
+                            'Authorization': `${authorization_token}`
                         }
                     }
                 ).catch( err => {
-                    console.log('Error while retrieving data from location service');
+                    console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
 
