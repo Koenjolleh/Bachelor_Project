@@ -1,82 +1,4 @@
-/**Get User Role  */
-exports.GetUserRole = (id_user) => {
 
-    return "SELECT roles.name " +
-        "FROM users " +
-        "INNER JOIN user_roles ON users.id_user = user_roles.id_user " +
-        "INNER JOIN roles ON user_roles.id_role = roles.id_role " +
-        "WHERE users.id_user =" + id_user;
-}
-/** Get User name by id_user */
-exports.GetUserNameByID = (id_user) => {
-
-    return "SELECT users.username " +
-        "FROM users " +
-        "WHERE users.id_user = " + id_user;
-}
-/** Admin: List all the locations FROM a specific Broker */
-exports.GetAdminListAllLocationsFromBroker = (id_user) => {
-    return "SELECT " +
-        "a.id_location, " +
-        "a.address, " +
-        "a.total_number_zones, " +
-        "a.floor_plan_link, " +
-        "b.prop_type, " +
-        "ST_X(a.coordinates) AS longitude, " +
-        "ST_Y(a.coordinates) AS latitude, " +
-        "a.id_service " +
-        "FROM locations a " +
-        "INNER JOIN property_types b ON a.id_prop_type = b.id_prop_type " +
-        "WHERE a.id_user = " + id_user
-}
-
-//TODO: NOT DONE
-exports.ShareLocationWithOwner = (id_user, id_location) => {
-    return "INSERT INTO shared_locations(state, id_user, id_location) " +
-        "VALUES (true, " + id_user + "," + id_location + ")"
-}
-exports.getLocationId = (id_location) => {
-    return "SELECT a.id_location FROM locations a WHERE a.id_location = "+ id_location
-}
-/** Admin: Schedule */
-/** Admin: Get schedule */
-//DONE
-exports.GetSchedule = (id_location) => {
-    return "SELECT " +
-        "a.id_loc_schedule," +
-        "c.id_location, " +
-        "a.open_time, " +
-        "a.close_time, " +
-        "b.day_name, " +
-        "a.open " +
-        "FROM schedule_locations a " +
-        "INNER JOIN days b ON a.id_day = b.id_day " +
-        "INNER JOIN locations c ON a.id_location = c.id_location " +
-        "WHERE a.id_location = " + id_location;
-}
-exports.SetSchedule = (open_time, close_time, open, id_day, id_location, id_loc_schedule) =>{
-    return "INSERT INTO schedule_locations (open_time, close_time, open, id_day, id_location, id_loc_schedule) " +
-        "VALUES ('" + open_time + "','" + close_time + "', " + open + ", " + id_day + "," + id_location + ","+id_loc_schedule+");"
-}
-exports.UpdateSchedule = (open_time, close_time, open, id_day, id_location, id_loc_schedule) =>{
-    return "UPDATE schedule_locations " +
-        "SET open_time = '" + open_time + "', close_time = '" + close_time + "', open = " + open + ", id_day = " + id_day + "" +
-        "WHERE schedule_locations.id_location = " + id_location + "AND schedule_locations.id_loc_schedule = " + id_loc_schedule
-}
-
-/** Admin: Activities Customer */
-//TODO: NOT DONE
-exports.GetListCustomerActivities = (id_location) => {
-    return "SELECT " +
-        "a.id_activity_c, " +
-        "a.activity_number, " +
-        "a.activity_name, " +
-        "a.description, " +
-        "b.id_location " +
-        "FROM customer_activities a " +
-        "INNER JOIN locations b ON a.id_location = b.id_location " +
-        "WHERE b.id_location = " + id_location
-}
 exports.SetCustomerActivities = (activity_number, activity_name, description, id_location) => {
     return "INSERT INTO customer_activities (activity_number, activity_name, description, id_location) " +
         "VALUES (" + activity_number + ",'" + activity_name + "','" + description + "'," + id_location + ");";
@@ -92,18 +14,6 @@ exports.DeleteCustomerActivities = (id_activity_c) => {
 
 }
 
-/** Admin Zone types */
-exports.GetListZoneTypes = (id_location) => {
-    return "SELECT " +
-        "a.id_zone_type, " +
-        "a.zone_type_number, " +
-        "a.zone_type_name, " +
-        "a.description, " +
-        "b.id_location " +
-        "FROM zone_types a " +
-        "INNER JOIN locations b ON a.id_location = b.id_location " +
-        "WHERE b.id_location = " + id_location
-}
 exports.SetZoneTypes = (zone_type_number, zone_type_name, description, id_location) => {
     return "INSERT INTO zone_types (zone_type_number, zone_type_name, description, id_location) " +
         "VALUES (" + zone_type_number + ",'" + zone_type_name + "','" + description + "'," + id_location + ");";

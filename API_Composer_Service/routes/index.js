@@ -26,4 +26,32 @@ module.exports = function(app) {
     app.post('/api/api_composer/updateAdminSharedLocations',locationController.updateAdminSharedLocations)
     app.post('/api/api_composer/deleteAdminSharedLocations',locationController.deleteAdminSharedLocations)
 
+    app.post('/api/api_composer/getAdminListAllLocationsFromBroker',locationController.getAdminListAllLocationsFromBroker)
+    
+    /** Admin: set customer activities */
+    app.post('/api/api_composer/setAdminCustomerActivities',locationController.setAdminCustomerActivities)
+
+    /** Admin: update customer activities */
+    app.post('/api/api_composer/updateAdminCustomerActivities', locationController.updateAdminCustomerActivities)
+
+    /** Admin: delete customer activities */
+    app.post('/api/api_composer/deleteAdminCustomerActivities', locationController.deleteAdminCustomerActivities)
+    /** Admin: set outside activities */
+    app.post('/api/api_composer/setAdminOutsideActivities', locationController.setAdminOutsideActivities)
+
+    /** Admin: update outside activities */
+    app.post('/api/api_composer/updateAdminOutsideActivities', locationController.updateAdminOutsideActivities)
+
+    /** Admin: delete outside activities */
+    app.post('/api/api_composer/deleteAdminOutsideActivities', locationController.deleteAdminOutsideActivities)
+
+    /** Admin: set business activities */
+    app.post('/api/api_composer/setAdminBusinessActivities', locationController.setAdminBusinessActivities)
+
+    /** Admin: update business activities */
+    app.post('/api/api_composer/updateAdminBusinessActivities', locationController.updateAdminBusinessActivities)
+
+    /** Admin: delete business activities */
+    app.post('/api/api_composer/deleteAdminBusinessActivities', locationController.deleteAdminBusinessActivities)
+
 }

@@ -85,6 +85,7 @@ exports.signin = (req, res, next) => {
           },
         }).then(user => {
           const token = jwt.sign({ id_user: user.id_user }, jwtSecret.secret, {
+              //TODO: Remember to change back to 60 * 60
             expiresIn: 60 * 600,
           });
           res.status(200).send({
