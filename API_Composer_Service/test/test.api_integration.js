@@ -21,15 +21,20 @@ describe('API integration test', () => {
 
   before(done => {
 
-    /** Setting up mock calls to these services so our test can be run in isolation */
+    /** These mock calls intercepts the one done by the function and returns a reply matching
+     *  what to be expected from a successful call. This way we can run our tests in isolation.
+     */
+
+    /** Setting up mock call used in passport to authenticate the user*/
     nock('http://localhost:3001')
       .get(`/api/user_service/getusers/${id_user}`)
       .reply(200, getusers_mock_data);
 
+    /** Setting up mock call to the zone service */
     nock('http://localhost:3007', {
-      reqheaders: {
-        authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxMCwiaWF0IjoxNjA4MTU1NjEyLCJleHAiOjE2MDgxNTkyMTJ9.rkWhGTsZM4mcoC6fXefu0K5ici9iD71uBOMVcOhtKMo',
-      },
+        reqheaders: {
+          authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxMCwiaWF0IjoxNjA4MTU1NjEyLCJleHAiOjE2MDgxNTkyMTJ9.rkWhGTsZM4mcoC6fXefu0K5ici9iD71uBOMVcOhtKMo',
+        },
       })
       .post(`/api/zones/getdatazone`, {
         "id_user": 10,
@@ -38,10 +43,11 @@ describe('API integration test', () => {
       })
       .reply(200, getzoneservice_mock_data);
 
+      /** Setting up mock call to the inside outside service */
       nock('http://localhost:3004', {
-        reqheaders: {
-          authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxMCwiaWF0IjoxNjA4MTU1NjEyLCJleHAiOjE2MDgxNTkyMTJ9.rkWhGTsZM4mcoC6fXefu0K5ici9iD71uBOMVcOhtKMo',
-        },
+          reqheaders: {
+            authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxMCwiaWF0IjoxNjA4MTU1NjEyLCJleHAiOjE2MDgxNTkyMTJ9.rkWhGTsZM4mcoC6fXefu0K5ici9iD71uBOMVcOhtKMo',
+          },
         })
         .post(`/api/inside_outside/getdatasets`, {
           "id_user": 10,
