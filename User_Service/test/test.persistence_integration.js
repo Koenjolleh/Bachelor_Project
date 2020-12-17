@@ -53,7 +53,7 @@ describe('Persistence integration tests', function() {
   });
 
   /** Make a test that checks if all users have been created */
-  it('should check that the two users have been created properly', async () => {
+  it('should check that the two users have been created with associations properly', async () => {
 
     const query = queryBuilder.GetAllUsersWithARole();
     const users = await db.sequelize.query(query, {type: db.sequelize.QueryTypes.SELECT});
