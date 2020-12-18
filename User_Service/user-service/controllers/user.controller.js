@@ -435,7 +435,7 @@ exports.checkUserRole = async (req, res, next) => {
       if (info !== undefined) {
           console.log(info.message);
           res.status(401).send(info.message);
-      } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
+      } else if (parseInt(user.id_user,10) === req.body.id_user) {
         try {
           const { id_user, user_role} = req.body;
           let user_role_confirmation;

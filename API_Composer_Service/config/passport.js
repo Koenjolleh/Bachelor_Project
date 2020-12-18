@@ -26,7 +26,7 @@ passport.use(
       
       await axios.get(`http://localhost:3001/api/user_service/getusers/${id_user}`).then( user => {
         if (user) {
-          console.log('user found in db in passport');
+          // console.log('user found in db in passport');
           done(null, user);
         } else {
           console.log('user not found in db');

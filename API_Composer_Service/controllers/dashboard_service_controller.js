@@ -26,7 +26,7 @@ exports.getDashboard = async (req, res, next) => {
                         'Authorization': `${authorication_token}`
                     }
                 }).catch( () => {
-                    console.log('Error while retrieving locations');
+                    // console.log('Error while retrieving locations');
                     res.status(404).send('Error while retrieving locations');
                 });
 
@@ -38,7 +38,7 @@ exports.getDashboard = async (req, res, next) => {
                         'Authorization': `${authorication_token}`
                     }
                 }).catch( () => {
-                    console.log('Error while retrieving datasets');
+                    // console.log('Error while retrieving datasets');
                     res.status(404).send('Error while retrieving datasets');
                 });
 
@@ -55,7 +55,7 @@ exports.getDashboard = async (req, res, next) => {
                             return d.id_location;
                         });
 
-                        console.log('Retrieved data from location and inside-outside service')
+                        // console.log('Retrieved data from location and inside-outside service')
                         
                     }
                 ).catch(err =>{
@@ -74,18 +74,18 @@ exports.getDashboard = async (req, res, next) => {
                     }
                 }).then( res => {
 
-                    console.log('Dashboard data found');
+                    // console.log('Dashboard data found');
                     dashboard = res.data.dashboard;
                     
                 }).catch( () => {
-                    console.log('Error while retrieving dashboards');
+                    // console.log('Error while retrieving dashboards');
                     res.status(404).send('Error while retrieving dashboards');
                 });
                 
                 // Combines the data into a single array and sends it to the client
                 if (dashboard.length > 0) {
                     data = helper.JsonDashboardOverview(locations, dashboard);
-                    console.log('Dashboard overview: ', data);
+                    // console.log('Dashboard overview: ', data);
                     res.status(200).json({ data });
                 } else {
                     console.log('No dashboard found');
@@ -125,7 +125,7 @@ exports.getSpecificDashboard = async (req, res, next) => {
                     }
                 }).then( res => {
 
-                    console.log('id_dataset found ' + res.data.data);
+                    // console.log('id_dataset found ' + res.data.data);
                     id_dataset = res.data.data;
                     
                 }).catch( () => {
@@ -146,7 +146,7 @@ exports.getSpecificDashboard = async (req, res, next) => {
                     }
                 }).then( res => {
 
-                    console.log('dashboard found ' + res.data.dashboard);
+                    // console.log('dashboard found ' + res.data.dashboard);
                     dashboard = res.data.dashboard;
                     
                 }).catch( () => {
@@ -157,7 +157,7 @@ exports.getSpecificDashboard = async (req, res, next) => {
                 // Combines the data into a single array and sends it to the client
                 if (dashboard.length > 0) {
                     data = helper.JsonSpecificDashboardOverview(dashboard);
-                    console.log('Specific dashboard overview: ', data);
+                    // console.log('Specific dashboard overview: ', data);
                     res.status(200).json({ data });
                 } else {
                     console.log('No dashboard found for user');

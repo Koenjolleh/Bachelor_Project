@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha -require esm -exit",
+    "test": "set NODE_ENV=test&& mocha -require esm -require dotenv/config -exit",
     "start": "node server.js",
     "db-dev": "cp .env_dev .env",
     "db-prod": "cp .env_prod .env",
