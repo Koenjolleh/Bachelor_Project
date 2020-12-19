@@ -14,43 +14,33 @@ exports.GetUserNameByID = (id_user) => {
         "FROM users " +
         "WHERE users.id_user = " + id_user;
 }
-/** Admin: List all customers (Brokers) */
-exports.GetAdminListAllCustomers = () => {
-    return "SELECT users.name " +
-        "FROM users " +
-        "INNER JOIN user_roles ON users.id_user = user_roles.id_user " +
-        "INNER JOIN roles ON user_roles.id_role = roles.id_role " +
-        "WHERE roles.name = 'BROKER'"
-}
 /** Admin: List all the locations FROM a specific Broker */
 exports.GetAdminListAllLocationsFromBroker = (id_user) => {
     return "SELECT " +
         "a.id_location, " +
-        "c.id_user, " +
-        "c.name AS owner, " +
         "a.address, " +
         "a.total_number_zones, " +
         "a.floor_plan_link, " +
         "b.prop_type, " +
         "ST_X(a.coordinates) AS longitude, " +
         "ST_Y(a.coordinates) AS latitude, " +
-        "a.id_service, " +
-        "f.name," +
-        "c.id_user " +
+        "a.id_service " +
         "FROM locations a " +
         "INNER JOIN property_types b ON a.id_prop_type = b.id_prop_type " +
-        "INNER JOIN users c ON a.id_user = c.id_user " +
-        "INNER JOIN user_roles d ON c.id_user = d.id_user " +
-        "INNER JOIN roles f ON d.id_role = f.id_role " +
-        "WHERE f.name = 'BROKER' AND c.id_user = " + id_user
+        "WHERE a.id_user = " + id_user
 }
+
+//TODO: NOT DONE
 exports.ShareLocationWithOwner = (id_user, id_location) => {
     return "INSERT INTO shared_locations(state, id_user, id_location) " +
         "VALUES (true, " + id_user + "," + id_location + ")"
 }
-
+exports.getLocationId = (id_location) => {
+    return "SELECT a.id_location FROM locations a WHERE a.id_location = "+ id_location
+}
 /** Admin: Schedule */
 /** Admin: Get schedule */
+//DONE
 exports.GetSchedule = (id_location) => {
     return "SELECT " +
         "a.id_loc_schedule," +
@@ -64,9 +54,9 @@ exports.GetSchedule = (id_location) => {
         "INNER JOIN locations c ON a.id_location = c.id_location " +
         "WHERE a.id_location = " + id_location;
 }
-exports.SetSchedule = (open_time, close_time, open, id_day, id_location) =>{
-    return "INSERT INTO schedule_locations (open_time, close_time, open, id_day, id_location) " +
-        "VALUES ('" + open_time + "','" + close_time + "', " + open + ", " + id_day + "," + id_location + ");"
+exports.SetSchedule = (open_time, close_time, open, id_day, id_location, id_loc_schedule) =>{
+    return "INSERT INTO schedule_locations (open_time, close_time, open, id_day, id_location, id_loc_schedule) " +
+        "VALUES ('" + open_time + "','" + close_time + "', " + open + ", " + id_day + "," + id_location + ","+id_loc_schedule+");"
 }
 exports.UpdateSchedule = (open_time, close_time, open, id_day, id_location, id_loc_schedule) =>{
     return "UPDATE schedule_locations " +
@@ -75,6 +65,7 @@ exports.UpdateSchedule = (open_time, close_time, open, id_day, id_location, id_l
 }
 
 /** Admin: Activities Customer */
+//TODO: NOT DONE
 exports.GetListCustomerActivities = (id_location) => {
     return "SELECT " +
         "a.id_activity_c, " +
@@ -85,20 +76,6 @@ exports.GetListCustomerActivities = (id_location) => {
         "FROM customer_activities a " +
         "INNER JOIN locations b ON a.id_location = b.id_location " +
         "WHERE b.id_location = " + id_location
-}
-exports.SetCustomerActivities = (activity_number, activity_name, description, id_location) => {
-    return "INSERT INTO customer_activities (activity_number, activity_name, description, id_location) " +
-        "VALUES (" + activity_number + ",'" + activity_name + "','" + description + "'," + id_location + ");";
-}
-exports.UpdateCustomerActivities = (activity_number, activity_name, description, id_location, id_activity_c) => {
-    return "UPDATE customer_activities " +
-        "SET activity_number = " + activity_number + ", activity_name = '" + activity_name + "', description = '" + description + "' " +
-        "WHERE customer_activities.id_location = " + id_location + " AND customer_activities.id_activity_c = " + id_activity_c
-}
-exports.DeleteCustomerActivities = (id_activity_c) => {
-    return "DELETE FROM customer_activities " +
-        "WHERE id_activity_c = " + id_activity_c
-
 }
 
 /** Admin Zone types */
@@ -191,19 +168,7 @@ exports.GetListOutsideActivities = (id_location) => {
         "INNER JOIN locations b ON a.id_location = b.id_location " +
         "WHERE b.id_location = " + id_location
 }
-exports.SetOutsideActivities = (activity_number, activity_name, description, id_location) => {
-    return "INSERT INTO outside_activities (activity_number, activity_name, description, id_location) " +
-        "VALUES (" + activity_number + ",'" + activity_name + "','" + description + "'," + id_location + ");";
-}
-exports.UpdateOutsideActivities = (activity_number, activity_name, description, id_location, id_activity_out) => {
-    return "UPDATE outside_activities " +
-        "SET activity_number = " + activity_number + ", activity_name = '" + activity_name + "', description = '" + description + "' " +
-        "WHERE outside_activities.id_location = " + id_location + " AND outside_activities.id_activity_out = " + id_activity_out
-}
-exports.DeleteOutsideActivities = (id_activity_out) => {
-    return "DELETE FROM outside_activities " +
-        "WHERE id_activity_out = " + id_activity_out
-}
+
 
 /** Admin: Business Activities */
 exports.GetListBusinessActivities = (id_location) => {
@@ -216,19 +181,6 @@ exports.GetListBusinessActivities = (id_location) => {
         "FROM business_activities a " +
         "INNER JOIN locations b ON a.id_location = b.id_location " +
         "WHERE b.id_location = " + id_location
-}
-exports.SetBusinessActivities = (activity_number, activity_name, description, id_location) => {
-    return "INSERT INTO business_activities (activity_number, activity_name, description, id_location) " +
-        "VALUES (" + activity_number + ",'" + activity_name + "','" + description + "'," + id_location + ");";
-}
-exports.UpdateBusinessActivities = (activity_number, activity_name, description, id_location, id_activity_b) => {
-    return "UPDATE business_activities " +
-        "SET activity_number = " + activity_number + ", activity_name = '" + activity_name + "', description = '" + description + "' " +
-        "WHERE business_activities.id_location = " + id_location + " AND business_activities.id_activity_out = " + id_activity_b
-}
-exports.DeleteBusinessActivities = (id_activity_b) => {
-    return "DELETE FROM business_activities " +
-        "WHERE id_activity_b = " + id_activity_b
 }
 
 /** Admin: Location */

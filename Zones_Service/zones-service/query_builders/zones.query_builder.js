@@ -23,7 +23,46 @@ exports.ZonesData = (id_location, id_day) => {
         'ORDER BY b.id_zone_type, c.id_zone_category ASC;';
 }
 
+exports.SetZoneTypes = (zone_type_number, zone_type_name, description, id_location) => {
+    return "INSERT INTO zone_types (zone_type_number, zone_type_name, description, id_location) " +
+        "VALUES (" + zone_type_number + ",'" + zone_type_name + "','" + description + "'," + id_location + ");";
+}
+exports.UpdateZoneTypes = (zone_type_number, zone_type_name, description, id_location, id_zone_type) => {
+    return "UPDATE zone_types " +
+        "SET zone_type_number = " + zone_type_number + ", zone_type_name = '" + zone_type_name + "', description = '" + description + "' " +
+        "WHERE zone_types.id_location = " + id_location + " AND zone_types.id_zone_type = " + id_zone_type
+}
+exports.DeleteZoneTypes = (id_zone_type) => {
+    return "DELETE FROM zone_types " +
+        "WHERE id_zone_type = " + id_zone_type
 
+}
+exports.SetZoneCategories = (zone_category_number, zone_category_name,zone_category_color, description, id_location) => {
+    return "INSERT INTO zone_categories (zone_category_number, zone_category_name,zone_category_color, description, id_location) " +
+        "VALUES (" + zone_category_number + ",'" + zone_category_name + "','" + zone_category_color + "','" + description + "'," + id_location + ");";
+}
+exports.UpdateZoneCategories = (zone_category_number, zone_category_name,zone_category_color, description, id_location, id_zone_category) => {
+    return "UPDATE zone_categories " +
+        "SET zone_category_number = " + zone_category_number + ", zone_category_name = '" + zone_category_name + "',zone_category_color = '" + zone_category_color + "', description = '" + description + "' " +
+        "WHERE zone_categories.id_location = " + id_location + " AND zone_categories.id_zone_category = " + id_zone_category
+}
+exports.DeleteZoneCategories = (id_zone_categories) => {
+    return "DELETE FROM zone_categories " +
+        "WHERE id_zone_category = " + id_zone_categories
+}
+exports.SetZones = (zone_number, zone_floor_number, description, id_location) => {
+    return "INSERT INTO zones (zone_number, zone_floor_number, description, id_location) " +
+        "VALUES (" + zone_number + "," + zone_floor_number + ",'" + description + "'," + id_location + ");";
+}
+exports.UpdateZones = (zone_number, zone_floor_number, description, id_location, id_zone) => {
+    return "UPDATE zones " +
+        "SET zone_number = " + zone_number + ", zone_floor_number = " + zone_floor_number + ", description = '" + description + "' " +
+        "WHERE zones.id_location = " + id_location + " AND zones.id_zone = " + id_zone
+}
+exports.DeleteZones = (id_zone) => {
+    return "DELETE FROM zones " +
+        "WHERE id_zone = " + id_zone
+}
 // exports.ZonesData = (id_location, id_day, id_dataset) => {
 
 //     return 'SELECT ' +

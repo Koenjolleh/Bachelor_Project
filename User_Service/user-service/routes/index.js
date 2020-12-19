@@ -28,5 +28,6 @@ module.exports = function(app) {
     const adminController = require('../controllers/user.admin.controller')
     /* ADMIN LOCATION */
     app.post('/api/user_service/getAdminListAllCustomers', middlewareValidator.middlewareValidatorParams(adminSchemas.GetAdminListAllCustomers, 'body'), adminController.getAdminListAllCustomers)
+    app.post('/api/user_service/getAdminListAllLocationsFromBroker', middlewareValidator.middlewareValidatorParams(adminSchemas.GetAdminListAllCustomers, 'body'), adminController.getAdminListAllLocationsFromBroker)
 
 }

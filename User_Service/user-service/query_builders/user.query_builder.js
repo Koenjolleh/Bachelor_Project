@@ -31,7 +31,17 @@ exports.GetOwnersDependentOnBroker = (id_broker) => {
         "AND roles.name = 'SHOP_OWNER'";
 
 }
-
+exports.GetUserListAllLocationsFromBroker = (id_user) => {
+    return "SELECT " +
+        "c.id_user, " +
+        "c.name AS owner, " +
+        "f.name, " +
+        "c.id_user " +
+        "FROM users c " +
+        "INNER JOIN user_roles d ON c.id_user = d.id_user " +
+        "INNER JOIN roles f ON d.id_role = f.id_role " +
+        "WHERE f.name = 'BROKER' AND c.id_user = " + id_user;
+}
 exports.RemoveOwnerDependentOnBroker = (id_broker, id_owner) => {
 
     return "DELETE FROM users " +
