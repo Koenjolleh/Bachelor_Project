@@ -1,0 +1,49 @@
+version: "3"
+services:
+  api_composer_service:
+    image: api_composer_service
+    build:
+      context: ./API_Composer_Service
+      dockerfile: Dockerfile
+  zones_service:
+    image: zones_service
+    build:
+      context: ./Zones_Service
+      dockerfile: Dockerfile
+    depends_on:
+      - "api_composer_service"
+  user_service:
+    image: user_service
+    build:
+      context: ./User_Service
+      dockerfile: Dockerfile
+    depends_on:
+      - "api_composer_service"
+  location_service:
+    image: location_service
+    build:
+      context: ./Location_Service
+      dockerfile: Dockerfile
+    depends_on:
+      - "api_composer_service"
+  insight_service:
+    image: insight_service
+    build:
+      context: ./Insight_Service
+      dockerfile: Dockerfile
+    depends_on:
+      - "api_composer_service"
+  inside_outside_service:
+    image: inside_outside_service
+    build:
+      context: ./Inside_Outside_Service
+      dockerfile: Dockerfile
+    depends_on:
+      - "api_composer_service"
+  dashboard_service:
+    image: dashboard_service
+    build:
+      context: ./Dashboard_Service
+      dockerfile: Dockerfile
+    depends_on:
+      - "api_composer_service"

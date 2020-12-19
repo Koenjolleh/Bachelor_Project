@@ -22,11 +22,11 @@ exports.JsonGetAdminListAllLocationsFromBrokerData = (dataLocations, dataUser, r
     return data;
 }
 /** API Composer data combiner of data from zone service and inside outside service */
-exports.DataCombiner = (locations, users) => {
+exports.DataCombiner = (location_data, users) => {
 
-    return locations.map(d => {
+    return location_data.map(d => {
         return {
-            id_user: d.id_user,
+            locationList: d.name,
             locations: d.location,
             user: users.filter(obj => { return obj.id_user === d.id_user}).map(obj => { return obj.owner; })[0],
 

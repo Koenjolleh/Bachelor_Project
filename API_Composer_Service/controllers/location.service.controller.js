@@ -43,8 +43,8 @@ exports.getAdminListAllLocationsFromBroker = async (req, res, next) => {
                     res.status(404).send('Error while retrieving data from inside_outside service', err);
                 });
 
-                data = user_data.data
-                data1 = location_data.data
+                data = helperLocation.DataCombiner([user_data], [location_data])
+
                 console.log('Broker: ', data);
                 res.status(200).json({data})
                 /** Waits for the service calls to complete and sends a respond to the client */
