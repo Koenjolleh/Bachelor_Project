@@ -3,7 +3,6 @@ const Sequelize = require('sequelize');
 const queryBuilder = require('../query_builders/admin.query_builder')
 //DB
 const db = require('../../config/db.config');
-const queryBuilder = require('../query_builders/inside-outside.query_builder');
 const Dataset = db.dataset;
 
 //Helpers

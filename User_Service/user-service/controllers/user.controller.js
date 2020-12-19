@@ -429,16 +429,6 @@ exports.getUsers = async (req, res, next) => {
   }
 
 };
-exports.checkUserRole = async (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
-        if (err) console.log(err);
-        if (info !== undefined) {
-            console.log(info.message);
-            res.status(401).send(info.message);
-        } else if (parseInt(user.data.user.id_user,10) === req.body.id_user) {
-            try {
-                const { id_user, user_role} = req.body;
-                let user_role_confirmation;
 
 exports.checkUserRole = async (req, res, next) => {
   passport.authenticate('jwt', { session: false }, async (err, user, info) => {
@@ -471,17 +461,17 @@ exports.checkUserRole = async (req, res, next) => {
 *  the user with the id the action is being performed on */
 isRole = async (role, id_user) => {
   if (id_user!== undefined) {
-      try {
-          let queryRole = '';
-          let userRole = {};
-          // Gets user role info
-          queryRole = queryBuilder.GetUserRole(id_user);
-          userRole = await db.sequelize.query(queryRole, {type: db.sequelize.QueryTypes.SELECT});
-          // Check if user is the required role
-          return userRole[0].name === role.toUpperCase();
-      } catch (e) {
-          console.error(e);
-      }
+    try {
+        let queryRole = '';
+        let userRole = {};
+        // Gets user role info
+        queryRole = queryBuilder.GetUserRole(id_user);
+        userRole = await db.sequelize.query(queryRole, {type: db.sequelize.QueryTypes.SELECT});
+        // Check if user is the required role
+        return userRole[0].name === role.toUpperCase();
+    } catch (e) {
+        console.error(e);
+    }
   }
   else {
       console.error('Unable to check user role');
