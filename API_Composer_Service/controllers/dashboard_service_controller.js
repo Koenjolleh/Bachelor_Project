@@ -1,6 +1,7 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
+const env = require('../config/env');
 
 /** Helpers */
 const helper = require('../helpers/dashboard.helper');
@@ -19,7 +20,7 @@ exports.getDashboard = async (req, res, next) => {
                 let locations, id_locations, id_datasets, dashboard;
 
                 /** Retrives data needed from the locations service */
-                locations = axios.post(`http://localhost:3002/api/location_service/getLocationsBasedOnRoles`, {
+                locations = axios.post(`http://${env.location_service_host}:3002/api/location_service/getLocationsBasedOnRoles`, {
                     id_user: id_user
                 }, {
                     headers: {
@@ -31,7 +32,7 @@ exports.getDashboard = async (req, res, next) => {
                 });
 
                 /** Retrives data needed from the inside-outside service */
-                id_datasets = axios.post(`http://localhost:3004/api/inside_outside/getrecentdatasets`, {
+                id_datasets = axios.post(`http://${env.inside_outside_service_host}:3004/api/inside_outside/getrecentdatasets`, {
                     id_user: id_user
                 }, {
                     headers: {
@@ -64,7 +65,7 @@ exports.getDashboard = async (req, res, next) => {
 
                 /** Awaits the result of the call to the other services since we need them to find the correct data,
                  *  then retrives the data needed from the dashboard service */
-                await axios.post(`http://localhost:3006/api/dashboard_service/getdashboard`, {
+                await axios.post(`http://${env.dashboard_service_host}:3006/api/dashboard_service/getdashboard`, {
                     id_user: id_user,
                     id_locations: id_locations,
                     id_datasets: id_datasets
@@ -116,7 +117,7 @@ exports.getSpecificDashboard = async (req, res, next) => {
                 let id_dataset, dashboard;
 
                 /** Retrieves the id_dataset needed for the dashboard query from the inside-outside service */
-                await axios.post(`http://localhost:3004/api/inside_outside/getspecificrecentdatasets`, {
+                await axios.post(`http://${env.inside_outside_service_host}:3004/api/inside_outside/getspecificrecentdatasets`, {
                     id_user: id_user,
                     id_location: id_location
                 }, {
@@ -136,7 +137,7 @@ exports.getSpecificDashboard = async (req, res, next) => {
                 /** Retrives the specific dashboard in the dashboard service based on the data in the request and the id_dataset from
                  *  the call to the inside-outside service
                 */
-                await axios.post(`http://localhost:3006/api/dashboard_service/getspecificdashboard`, {
+                await axios.post(`http://${env.dashboard_service_host}:3006/api/dashboard_service/getspecificdashboard`, {
                     id_user: id_user,
                     id_location: id_location,
                     id_dataset: id_dataset

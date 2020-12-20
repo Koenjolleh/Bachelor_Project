@@ -10,7 +10,8 @@ const env = {
         min: 0,
         acquire: 30000,
         idle: 10000
-    }
+    },
+    user_service_host: process.env.USER_SERVICE_HOSTNAME
 };
    
 module.exports = env;

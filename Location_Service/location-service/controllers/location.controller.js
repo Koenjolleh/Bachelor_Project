@@ -2,6 +2,7 @@ const passport = require('passport');
 const axios = require('axios');
 const { sequelize } = require('../../config/db.config');
 const { Op } = require("sequelize");
+const env = require('../../config/env');
 
 //Models
 const db = require('../../config/db.config');
@@ -541,7 +542,7 @@ exports.getLocationsBasedOnRole = async (req, res, next) => {
                 const authorication_token = req.headers.authorization;
                 let user_role_confirmation, locations;
     
-                user_role_confirmation = await axios.post(`http://localhost:3001/api/user_service/checkUserRole`, {
+                user_role_confirmation = await axios.post(`http://${env.user_service_host}:3001/api/user_service/checkUserRole`, {
                     id_user: id_user,
                     user_role: 'broker'
                 }, {

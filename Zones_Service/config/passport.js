@@ -10,12 +10,12 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
+const env = require('./env');
 
 const opts = {
   jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme('JWT'),
   secretOrKey: jwtSecret.secret,
 };
-
 
 passport.use(
   'jwt',
@@ -24,7 +24,7 @@ passport.use(
 
       const id_user = jwt_payload.id_user;
       
-      await axios.get(`http://localhost:3001/api/user_service/getusers/${id_user}`).then( user => {
+      await axios.get(`http://${env.user_service_host}:3001/api/user_service/getusers/${id_user}`).then( user => {
         if (user) {
           console.log('user found in db in passport');
           done(null, user);

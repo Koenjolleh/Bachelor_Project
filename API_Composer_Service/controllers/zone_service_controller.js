@@ -1,6 +1,7 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
+const env = require('../config/env');
 
 /** Helpers */
 const helperZones = require('../helpers/zones.helper');
@@ -19,7 +20,7 @@ exports.getZonesData = async (req, res, next) => {
                 let zone_data, dataset_data; 
 
                 /** Retrives data from the zones service */
-                zone_data = axios.post(`http://localhost:3007/api/zones/getdatazone`, {
+                zone_data = axios.post(`http://${env.zone_service_host}:3007/api/zones/getdatazone`, {
                     id_user: id_user,
                     id_location: id_location,
                     id_day: id_day
@@ -34,7 +35,7 @@ exports.getZonesData = async (req, res, next) => {
                 });
 
                 /** Retrives datasets data from the inside_outside service */
-                dataset_data = axios.post(`http://localhost:3004/api/inside_outside/getdatasets`, {
+                dataset_data = axios.post(`http://${env.inside_outside_service_host}:3004/api/inside_outside/getdatasets`, {
                     id_user: id_user,
                     id_dataset: id_dataset
                 }, {

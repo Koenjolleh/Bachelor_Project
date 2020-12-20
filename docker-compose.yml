@@ -5,11 +5,24 @@ services:
     build:
       context: ./API_Composer_Service
       dockerfile: Dockerfile
+    environment:
+      - USER_SERVICE_HOSTNAME=user_service
+      - ZONE_SERVICE_HOSTNAME=zone_service
+      - INSIDE_OUTSIDE_SERVICE_HOSTNAME=inside_outside_service
+      - LOCATION_SERVICE_HOSTNAME=location_service
+      - DASHBOARD_SERVICE_HOSTNAME=dashboard_service
+    ports:
+      - 3008:3008
   zones_service:
     image: zones_service
     build:
       context: ./Zones_Service
       dockerfile: Dockerfile
+    ports:
+      - 3007:3007
+    environment:
+      - RDS_HOSTNAME=host.docker.internal
+      - USER_SERVICE_HOSTNAME=user_service
     depends_on:
       - "api_composer_service"
   user_service:
@@ -17,6 +30,11 @@ services:
     build:
       context: ./User_Service
       dockerfile: Dockerfile
+    ports:
+      - 3001:3001
+    environment:
+      - RDS_HOSTNAME=host.docker.internal
+      - USER_SERVICE_HOSTNAME=user_service
     depends_on:
       - "api_composer_service"
   location_service:
@@ -24,6 +42,11 @@ services:
     build:
       context: ./Location_Service
       dockerfile: Dockerfile
+    ports:
+      - 3002:3002
+    environment:
+      - RDS_HOSTNAME=host.docker.internal
+      - USER_SERVICE_HOSTNAME=user_service
     depends_on:
       - "api_composer_service"
   insight_service:
@@ -31,6 +54,11 @@ services:
     build:
       context: ./Insight_Service
       dockerfile: Dockerfile
+    ports:
+      - 3003:3003
+    environment:
+      - RDS_HOSTNAME=host.docker.internal
+      - USER_SERVICE_HOSTNAME=user_service
     depends_on:
       - "api_composer_service"
   inside_outside_service:
@@ -38,6 +66,11 @@ services:
     build:
       context: ./Inside_Outside_Service
       dockerfile: Dockerfile
+    ports:
+      - 3004:3004
+    environment:
+      - RDS_HOSTNAME=host.docker.internal
+      - USER_SERVICE_HOSTNAME=user_service
     depends_on:
       - "api_composer_service"
   dashboard_service:
@@ -45,5 +78,10 @@ services:
     build:
       context: ./Dashboard_Service
       dockerfile: Dockerfile
+    ports:
+      - 3006:3006
+    environment:
+      - RDS_HOSTNAME=host.docker.internal
+      - USER_SERVICE_HOSTNAME=user_service
     depends_on:
       - "api_composer_service"
