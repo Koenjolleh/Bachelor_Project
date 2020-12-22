@@ -15,13 +15,12 @@ module.exports = function(app) {
     /** DASHBOARD DATA */
     app.get('/api/api_composer/getdashboard/:id_user', middlewareValidator.middlewareValidatorParams(dashboardSchemas.getdashboard, 'param'), dashboardController.getDashboard);
     app.get('/api/api_composer/getspecificdashboard', middlewareValidator.middlewareValidatorBody(dashboardSchemas.getspecificdashboard, 'body'), dashboardController.getSpecificDashboard);
-    
 
-     /** LOCATION */
-     app.post('/api/api_composer/getAdminListAllCustomers',middlewareValidator.middlewareValidatorBody(locationSchema.locationGetAdminScheduleData, 'body'), locationController.getAdminListAllCustomers)
-     app.post('/api/api_composer/getAdminSchedule',middlewareValidator.middlewareValidatorBody(locationSchema.locationGetAdminScheduleData, 'body'), locationController.getAdminSchedule)
-     app.post('/api/api_composer/setAdminSchedule',middlewareValidator.middlewareValidatorBody(locationSchema.SetSchedule, 'body'), locationController.setAdminSchedule)
-     app.post('/api/api_composer/updateAdminSchedule',middlewareValidator.middlewareValidatorBody(locationSchema.SetSchedule, 'body'), locationController.updateAdminSchedule)
+    /** LOCATION */
+    app.post('/api/api_composer/getAdminListAllCustomers',middlewareValidator.middlewareValidatorBody(locationSchema.locationGetAdminScheduleData, 'body'), locationController.getAdminListAllCustomers)
+    app.post('/api/api_composer/getAdminSchedule',middlewareValidator.middlewareValidatorBody(locationSchema.locationGetAdminScheduleData, 'body'), locationController.getAdminSchedule)
+    app.post('/api/api_composer/setAdminSchedule',middlewareValidator.middlewareValidatorBody(locationSchema.SetSchedule, 'body'), locationController.setAdminSchedule)
+    app.post('/api/api_composer/updateAdminSchedule',middlewareValidator.middlewareValidatorBody(locationSchema.SetSchedule, 'body'), locationController.updateAdminSchedule)
 
     app.post('/api/api_composer/getAdminListSharedLocations',locationController.getAdminListSharedLocations)
     app.post('/api/api_composer/updateAdminSharedLocations',locationController.updateAdminSharedLocations)

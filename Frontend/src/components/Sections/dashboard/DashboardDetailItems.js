@@ -2,7 +2,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-import React, {useState} from "react";
+import React from "react";
 import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles({

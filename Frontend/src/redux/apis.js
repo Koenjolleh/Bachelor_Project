@@ -4,8 +4,6 @@ export const URL_LOAD_USER = 'http://localhost:3001/api/user_service/loaduser';
 export const FORGOT_PASSWORD = 'http://localhost:3001/api/user_service/forgotpassword';
 export const RESET_PASSWORD = 'http://localhost:3001/api/user_service/resetpassword';
 export const UPDATE_PASSWORD_VIA_EMAIL = 'http://localhost:3001/api/user_service/updatepasswordviaemail';
-/** LOCATIONS **/
-export const URL_SHARED_LOCATIONS = 'http://localhost:3001/api/location_service/getsharedlocations';
 /** INSIDE-SERVICE **/
 // Unfiltered
 export const URL_DAY_INSIDE = 'http://localhost:3001/api/inside_service/unfiltered/getday';
@@ -50,7 +48,9 @@ export const URL_FULLDAYS_BY_ACTIVITY_OUTSIDE = 'http://localhost:3001/api/outsi
 export const URL_DAY_PERIOD_ACTIVITY_OUTSIDE = 'http://localhost:3001/api/outside_service/byperiodsbyactivitiesoutside/getday';
 export const URL_TYPEDAYS_PERIOD_ACTIVITY_OUTSIDE = 'http://localhost:3001/api/outside_service/byperiodsbyactivitiesoutside/gettypedays';
 export const URL_FULLDAYS_PERIOD_ACTIVITY_OUTSIDE = 'http://localhost:3001/api/outside_service/byperiodsbyactivitiesoutside/getfulldays';
-/** ZONES DATA **/
-export const URL_ZONES_DATA = 'http://localhost:3001/api/zones/getdatazone';
-// Dashboard DATA
-export const URL_DASHBOARD = 'http://localhost:3001/api/dashboard_service/getdashboard';
+/** ZONES **/
+export const URL_ZONES_DATA = 'http://localhost:3008/api/api_composer/getdatazone';
+/** Dashboard **/
+export const URL_DASHBOARD = 'http://localhost:3008/api/api_composer/getdashboard';
+/** LOCATIONS **/
+export const URL_SHARED_LOCATIONS = 'http://localhost:3008/api/api_composer/getdashboard';

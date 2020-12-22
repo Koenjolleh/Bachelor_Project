@@ -1,5 +1,5 @@
  FROM node:12-alpine
- WORKDIR /API_Composer_Service
+ WORKDIR /Frontend
  COPY . .
  RUN npm install
  CMD ["npm", "start"]

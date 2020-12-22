@@ -25,7 +25,7 @@ exports.getZonesData = async (req, res, next) => {
                 
                 if (dataZone.length > 0) {
                     // data = helperZones.JsonZoneData(dataZone, id_day);
-                    console.log('DATA BYDAY: ', dataZone);
+                    console.log('DATA BY DAY: ', dataZone);
                     res.status(200).json({ dataZone });
                 } else {
                     console.log('There is no data');

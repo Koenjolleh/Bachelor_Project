@@ -1,14 +1,14 @@
 import React from 'react';
-import clsx from 'clsx';
+// import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+// import AppBar from '@material-ui/core/AppBar';
+// import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+// import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import MenuIcon from '@material-ui/icons/Menu';
+// import MenuIcon from '@material-ui/icons/Menu';
 
 import DashboardDetailItems from "./DashboardDetailItems";
 
@@ -39,15 +39,15 @@ function DashboardDetail(props) {
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  // const handleDrawerClose = () => {
+  //   setOpen(false);
+  // };
 
   return (
 
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar>
+      {/* <AppBar>
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -62,7 +62,7 @@ function DashboardDetail(props) {
             Dashboard
           </Typography>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>

@@ -15,6 +15,7 @@ exports.getDashboard = async (req, res, next) => {
         } else if (parseInt(user.data.user.id_user,10) === parseInt(req.params.id_user,10)) {
             try {
 
+                
                 const id_user = parseInt(req.params.id_user,10);
                 const authorication_token = req.headers.authorization;
                 let locations, id_locations, id_datasets, dashboard;
@@ -27,7 +28,7 @@ exports.getDashboard = async (req, res, next) => {
                         'Authorization': `${authorication_token}`
                     }
                 }).catch( () => {
-                    // console.log('Error while retrieving locations');
+                    console.log('Error while retrieving locations');
                     res.status(404).send('Error while retrieving locations');
                 });
 
@@ -39,7 +40,7 @@ exports.getDashboard = async (req, res, next) => {
                         'Authorization': `${authorication_token}`
                     }
                 }).catch( () => {
-                    // console.log('Error while retrieving datasets');
+                    console.log('Error while retrieving datasets');
                     res.status(404).send('Error while retrieving datasets');
                 });
 
@@ -56,7 +57,7 @@ exports.getDashboard = async (req, res, next) => {
                             return d.id_location;
                         });
 
-                        // console.log('Retrieved data from location and inside-outside service')
+                        console.log('Retrieved data from location and inside-outside service')
                         
                     }
                 ).catch(err =>{
@@ -75,11 +76,11 @@ exports.getDashboard = async (req, res, next) => {
                     }
                 }).then( res => {
 
-                    // console.log('Dashboard data found');
+                    console.log('Dashboard data found');
                     dashboard = res.data.dashboard;
                     
                 }).catch( () => {
-                    // console.log('Error while retrieving dashboards');
+                    console.log('Error while retrieving dashboards');
                     res.status(404).send('Error while retrieving dashboards');
                 });
                 

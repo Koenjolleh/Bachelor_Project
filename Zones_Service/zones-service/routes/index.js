@@ -5,8 +5,9 @@ module.exports = function(app) {
 
     const zonesController = require('../controllers/zones.controller');
 
-     /** ZONES DATA */
-     app.post('/api/zones/getdatazone', middlewareValidator.middlewareValidatorBody(schemas.zonesData, 'body'), zonesController.getZonesData);
+    /** ZONES DATA */
+    app.post('/api/zones/getdatazone', middlewareValidator.middlewareValidatorBody(schemas.zonesData, 'body'), zonesController.getZonesData);
+    
     /** Admin: set zone category */
     app.post('/api/zones/setAdminZoneCategories', middlewareValidator.middlewareValidatorBody(adminSchemas.SetZoneCategories,'body'),zonesController.setAdminZoneCategories)
 

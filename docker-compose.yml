@@ -23,8 +23,6 @@ services:
     environment:
       - RDS_HOSTNAME=host.docker.internal
       - USER_SERVICE_HOSTNAME=user_service
-    depends_on:
-      - "api_composer_service"
   user_service:
     image: user_service
     build:
@@ -35,8 +33,6 @@ services:
     environment:
       - RDS_HOSTNAME=host.docker.internal
       - USER_SERVICE_HOSTNAME=user_service
-    depends_on:
-      - "api_composer_service"
   location_service:
     image: location_service
     build:
@@ -47,8 +43,6 @@ services:
     environment:
       - RDS_HOSTNAME=host.docker.internal
       - USER_SERVICE_HOSTNAME=user_service
-    depends_on:
-      - "api_composer_service"
   insight_service:
     image: insight_service
     build:
@@ -59,8 +53,6 @@ services:
     environment:
       - RDS_HOSTNAME=host.docker.internal
       - USER_SERVICE_HOSTNAME=user_service
-    depends_on:
-      - "api_composer_service"
   inside_outside_service:
     image: inside_outside_service
     build:
@@ -71,8 +63,6 @@ services:
     environment:
       - RDS_HOSTNAME=host.docker.internal
       - USER_SERVICE_HOSTNAME=user_service
-    depends_on:
-      - "api_composer_service"
   dashboard_service:
     image: dashboard_service
     build:
@@ -83,5 +73,10 @@ services:
     environment:
       - RDS_HOSTNAME=host.docker.internal
       - USER_SERVICE_HOSTNAME=user_service
-    depends_on:
-      - "api_composer_service"
+  frontend:
+    image: frontend
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
