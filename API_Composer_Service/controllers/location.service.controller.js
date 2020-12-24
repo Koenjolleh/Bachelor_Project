@@ -1,9 +1,7 @@
 const passport = require('passport');
 const axios = require('axios');
 
-/** Helpers */
-const helperLocation = require('../helpers/location.helper');
-//TODO: NOT DONE NEED TO COMBINE DATA
+//TODO: Might be done, need to ask jakob
 exports.getAdminListAllLocationsFromBroker = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -42,10 +40,22 @@ exports.getAdminListAllLocationsFromBroker = async (req, res, next) => {
                     console.log('Error while retrieving data from inside_outside service');
                     res.status(404).send('Error while retrieving data from inside_outside service', err);
                 });
+                let data3, data2
+                for(let broker in user_data.data) {
+                    data3 = user_data[broker].data
+                    for(var attributename in location_data.data){
+                        
+                        data2 =location_data[attributename].data
+                        
+                    }
+                }
+                
+                data = data3.concat(data2)
+                
+               
+            
+                
 
-                data = helperLocation.DataCombiner([user_data], [location_data])
-
-                console.log('Broker: ', data);
                 res.status(200).json({data})
                 /** Waits for the service calls to complete and sends a respond to the client */
 
