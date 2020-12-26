@@ -23,6 +23,16 @@ exports.ZonesData = (id_location, id_day) => {
         'ORDER BY b.id_zone_type, c.id_zone_category ASC;';
 }
 
+/** Admin Zone types */
+exports.GetListZoneTypes = (id_location) => {
+    return "SELECT " +
+        "a.id_zone_type, " +
+        "a.zone_type_number, " +
+        "a.zone_type_name, " +
+        "a.description " +
+        "FROM zone_types a " +
+        "WHERE a.id_location = " + id_location
+}
 exports.SetZoneTypes = (zone_type_number, zone_type_name, description, id_location) => {
     return "INSERT INTO zone_types (zone_type_number, zone_type_name, description, id_location) " +
         "VALUES (" + zone_type_number + ",'" + zone_type_name + "','" + description + "'," + id_location + ");";
@@ -37,6 +47,19 @@ exports.DeleteZoneTypes = (id_zone_type) => {
         "WHERE id_zone_type = " + id_zone_type
 
 }
+
+/** Admin: Zone Categories */
+exports.GetListZoneCategories = (id_location) => {
+    return "SELECT " +
+        "a.id_zone_category, " +
+        "a.zone_category_number, " +
+        "a.zone_category_name, " +
+        "a.zone_category_color, " +
+        "a.description " +
+        "FROM zone_categories a " +
+        "WHERE a.id_location = " + id_location
+}
+
 exports.SetZoneCategories = (zone_category_number, zone_category_name,zone_category_color, description, id_location) => {
     return "INSERT INTO zone_categories (zone_category_number, zone_category_name,zone_category_color, description, id_location) " +
         "VALUES (" + zone_category_number + ",'" + zone_category_name + "','" + zone_category_color + "','" + description + "'," + id_location + ");";
@@ -50,6 +73,18 @@ exports.DeleteZoneCategories = (id_zone_categories) => {
     return "DELETE FROM zone_categories " +
         "WHERE id_zone_category = " + id_zone_categories
 }
+
+/** Admin: Zones */
+exports.GetListZones = (id_location) => {
+    return "SELECT " +
+        "a.id_zone, " +
+        "a.zone_number, " +
+        "a.zone_floor_number, " +
+        "a.description " +
+        "FROM zones a " +
+        "WHERE a.id_location = " + id_location
+}
+
 exports.SetZones = (zone_number, zone_floor_number, description, id_location) => {
     return "INSERT INTO zones (zone_number, zone_floor_number, description, id_location) " +
         "VALUES (" + zone_number + "," + zone_floor_number + ",'" + description + "'," + id_location + ");";

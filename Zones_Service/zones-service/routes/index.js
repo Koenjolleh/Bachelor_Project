@@ -7,7 +7,11 @@ module.exports = function(app) {
 
      /** ZONES DATA */
      app.post('/api/zones/getdatazone', middlewareValidator.middlewareValidatorBody(schemas.zonesData, 'body'), zonesController.getZonesData);
-    /** Admin: set zone category */
+    
+    /** Admin: get list zone category */
+    app.post('/api/zones/getAdminListZoneCategories', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListZoneCategories,'body'),zonesController.getAdminListZoneCategories)
+
+     /** Admin: set zone category */
     app.post('/api/zones/setAdminZoneCategories', middlewareValidator.middlewareValidatorBody(adminSchemas.SetZoneCategories,'body'),zonesController.setAdminZoneCategories)
 
     /** Admin: update zone category */
@@ -15,6 +19,10 @@ module.exports = function(app) {
 
     /** Admin: delete zone category */
     app.post('/api/zones/deleteAdminZoneCategories', middlewareValidator.middlewareValidatorBody(adminSchemas.DeleteZoneCategories,'body'),zonesController.deleteAdminZoneCategories)
+    
+    /** Admin: get list zone type */
+    app.post('/api/zones/getAdminListZoneTypes', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListZoneTypes,'body'),zonesController.getAdminListZoneTypes)
+
     /** Admin: set zone type */
     app.post('/api/zones/setAdminZoneTypes', middlewareValidator.middlewareValidatorBody(adminSchemas.SetZoneTypes,'body'),zonesController.setAdminZoneTypes)
 
@@ -23,6 +31,10 @@ module.exports = function(app) {
 
     /** Admin: delete zone type */
     app.post('/api/zones/deleteAdminZoneTypes', middlewareValidator.middlewareValidatorBody(adminSchemas.DeleteZoneTypes,'body'),zonesController.deleteAdminZoneTypes)
+    
+    /** Admin: get list zones */
+    app.post('/api/zones/getAdminListZones', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListZones,'body'),zonesController.getAdminListZones)
+
     /** Admin: set zones */
     app.post('/api/zones/setAdminZones', middlewareValidator.middlewareValidatorBody(adminSchemas.SetZones,'body'),zonesController.setAdminZones)
 

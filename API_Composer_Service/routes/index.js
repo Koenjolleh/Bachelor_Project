@@ -28,6 +28,9 @@ module.exports = function(app) {
 
     app.post('/api/api_composer/getAdminListAllLocationsFromBroker',locationController.getAdminListAllLocationsFromBroker)
     
+    /** Admin: get list customer activities */
+    app.post('/api/api_composer/getAdminListCustomerActivities',locationController.getAdminListCustomerActivities)
+
     /** Admin: set customer activities */
     app.post('/api/api_composer/setAdminCustomerActivities',locationController.setAdminCustomerActivities)
 
@@ -36,6 +39,10 @@ module.exports = function(app) {
 
     /** Admin: delete customer activities */
     app.post('/api/api_composer/deleteAdminCustomerActivities', locationController.deleteAdminCustomerActivities)
+    
+    /** Admin: get list outside activities */
+    app.post('/api/api_composer/getAdminListOutsideActivities', locationController.getAdminListOutsideActivities)
+
     /** Admin: set outside activities */
     app.post('/api/api_composer/setAdminOutsideActivities', locationController.setAdminOutsideActivities)
 
@@ -44,6 +51,9 @@ module.exports = function(app) {
 
     /** Admin: delete outside activities */
     app.post('/api/api_composer/deleteAdminOutsideActivities', locationController.deleteAdminOutsideActivities)
+    
+    /** Admin: get list business activities */
+    app.post('/api/api_composer/getAdminListBusinessActivities', locationController.getAdminListBusinessActivities)
 
     /** Admin: set business activities */
     app.post('/api/api_composer/setAdminBusinessActivities', locationController.setAdminBusinessActivities)
@@ -53,6 +63,9 @@ module.exports = function(app) {
 
     /** Admin: delete business activities */
     app.post('/api/api_composer/deleteAdminBusinessActivities', locationController.deleteAdminBusinessActivities)
+    
+    /** Admin: get list zone category */
+    app.post('/api/api_composer/getAdminListZoneCategories', locationController.getAdminListZoneCategories)
 
     /** Admin: set zone category */
     app.post('/api/api_composer/setAdminZoneCategories', locationController.setAdminZoneCategories)
@@ -62,6 +75,10 @@ module.exports = function(app) {
 
     /** Admin: delete zone category */
     app.post('/api/api_composer/deleteAdminZoneCategories',locationController.deleteAdminZoneCategories)
+    
+    /** Admin: get list zone type */
+    app.post('/api/api_composer/getAdminListZoneTypes', locationController.getAdminListZoneTypes)
+    
     /** Admin: set zone type */
     app.post('/api/api_composer/setAdminZoneTypes', locationController.setAdminZoneTypes)
 
@@ -70,6 +87,10 @@ module.exports = function(app) {
 
     /** Admin: delete zone type */
     app.post('/api/api_composer/deleteAdminZoneTypes', locationController.deleteAdminZoneTypes)
+        
+    /** Admin: get list zones */
+    app.post('/api/api_composer/getAdminListZones', locationController.getAdminListZones)
+    
     /** Admin: set zones */
     app.post('/api/api_composer/setAdminZones', locationController.setAdminZones)
 

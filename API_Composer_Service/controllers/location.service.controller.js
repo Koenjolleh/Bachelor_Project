@@ -1,6 +1,72 @@
 const passport = require('passport');
 const axios = require('axios');
+//TODO: Not done
+exports.shareLocationWithOwners = async (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
+            try {
 
+                const { id_user, req_id_user} = req.body;
+                const authorization_token = req.headers.authorization;
+                let location_data, data, user_data, id_location = {}
+
+                /** Retrieves data from the location service */
+                location_data = await axios.post(`http://localhost:3002/api/location_service/shareLocationsWithOwners`, {
+                        id_user: id_user,
+                        req_id_user: req_id_user,
+                        id_location: id_location
+                    }, {
+                        headers: {
+                            'Authorization': `${authorization_token}`
+                        }
+                    }
+                ).catch( err => {
+                    console.log('Error while retrieving data from location service', err);
+                });
+                /** Retrieves datasets data from the inside_outside service */
+                user_data = await axios.post(`http://localhost:3001/api/user_service/getAdminListAllLocationsFromBroker`, {
+                        id_user: id_user,
+                        req_id_user: req_id_user
+                    }, {
+                        headers: {
+                            'Authorization': `${authorization_token}`
+                        }
+                    }
+                ).catch( err => {
+                    console.log('Error while retrieving data from inside_outside service');
+                    res.status(404).send('Error while retrieving data from inside_outside service', err);
+                });
+                let data3, data2
+                for(let broker in user_data.data) {
+                    data3 = user_data[broker].data
+                    for(var attributename in location_data.data){
+                        
+                        data2 =location_data[attributename].data
+                        
+                    }
+                }
+                
+                data = data3.concat(data2)
+
+                res.status(200).json({data})
+                /** Waits for the service calls to complete and sends a respond to the client */
+
+
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            console.log(user.data.user.id_user)
+            console.log(req.body.id_user)
+            console.error('jwt id and username do not match');
+            res.status(403).send('username and jwt token do not match');
+        }
+    })(req, res, next);
+};
 //TODO: Might be done, need to ask jakob
 exports.getAdminListAllLocationsFromBroker = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
@@ -391,6 +457,72 @@ exports.deleteAdminSharedLocations = async (req, res, next) => {
         }
     })(req, res, next);
 };
+//TODO: Done but talk with jakob about structure
+exports.getAdminListCustomerActivities = async (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
+            try {
+
+                const { id_user, id_location, req_id_user} = req.body;
+                const authorization_token = req.headers.authorization;
+                let location_data, data, user_data = {}
+
+                /** Retrieves data from the location service */
+                location_data = await axios.post(`http://localhost:3002/api/location_service/getAdminLocationID`, {
+                        id_user: id_user,
+                        id_location: id_location
+                    }, {
+                        headers: {
+                            'Authorization': `${authorization_token}`
+                        }
+                    }
+                ).catch( err => {
+                    console.log('Error while retrieving data from location service', err);
+                });
+                /** Retrieves datasets data from the inside_outside service */
+                activities_data = await axios.post(`http://localhost:3004/api/inside_outside/getAdminListCustomerActivities`, {
+                        id_user: id_user,
+                        id_location: id_location
+                    }, {
+                        headers: {
+                            'Authorization': `${authorization_token}`
+                        }
+                    }
+                ).catch( err => {
+                    console.log('Error while retrieving data from inside_outside');
+                    res.status(404).send('Error while retrieving data from inside_outside service', err);
+                });
+                let data3, data2
+                for(let locationID in location_data.data) {
+                    data3 = location_data[locationID].data
+                    for(let activities in activities_data.data){
+                        
+                        data2 =activities_data[activities].data
+                        
+                    }
+                }
+
+                data = data3.concat(data2)
+
+                res.status(200).json({data})
+                /** Waits for the service calls to complete and sends a respond to the client */
+
+
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            console.log(user.data.user.id_user)
+            console.log(req.body.id_user)
+            console.error('jwt id and username do not match');
+            res.status(403).send('username and jwt token do not match');
+        }
+    })(req, res, next);
+};
 //DONE
 exports.setAdminCustomerActivities = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
@@ -511,6 +643,72 @@ exports.deleteAdminCustomerActivities = async (req, res, next) => {
                     console.log('Error while retrieving data from location service', err);
                 });
                 data = location_data.data
+
+                res.status(200).json({data})
+                /** Waits for the service calls to complete and sends a respond to the client */
+
+
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            console.log(user.data.user.id_user)
+            console.log(req.body.id_user)
+            console.error('jwt id and username do not match');
+            res.status(403).send('username and jwt token do not match');
+        }
+    })(req, res, next);
+};
+//TODO: Done but talk with jakob about structure
+exports.getAdminListOutsideActivities = async (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
+            try {
+
+                const { id_user, id_location, req_id_user} = req.body;
+                const authorization_token = req.headers.authorization;
+                let location_data, data, user_data = {}
+
+                /** Retrieves data from the location service */
+                location_data = await axios.post(`http://localhost:3002/api/location_service/getAdminLocationID`, {
+                        id_user: id_user,
+                        id_location: id_location
+                    }, {
+                        headers: {
+                            'Authorization': `${authorization_token}`
+                        }
+                    }
+                ).catch( err => {
+                    console.log('Error while retrieving data from location service', err);
+                });
+                /** Retrieves datasets data from the inside_outside service */
+                activities_data = await axios.post(`http://localhost:3004/api/inside_outside/getAdminListOutsideActivities`, {
+                        id_user: id_user,
+                        id_location: id_location
+                    }, {
+                        headers: {
+                            'Authorization': `${authorization_token}`
+                        }
+                    }
+                ).catch( err => {
+                    console.log('Error while retrieving data from inside_outside');
+                    res.status(404).send('Error while retrieving data from inside_outside service', err);
+                });
+                let data3, data2
+                for(let locationID in location_data.data) {
+                    data3 = location_data[locationID].data
+                    for(let activities in activities_data.data){
+                        
+                        data2 =activities_data[activities].data
+                        
+                    }
+                }
+
+                data = data3.concat(data2)
 
                 res.status(200).json({data})
                 /** Waits for the service calls to complete and sends a respond to the client */
@@ -663,6 +861,72 @@ exports.deleteAdminOutsideActivities = async (req, res, next) => {
         }
     })(req, res, next);
 };
+//TODO: Done but talk with jakob about structure
+exports.getAdminListBusinessActivities = async (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
+            try {
+
+                const { id_user, id_location, req_id_user} = req.body;
+                const authorization_token = req.headers.authorization;
+                let location_data, data, user_data = {}
+
+                /** Retrieves data from the location service */
+                location_data = await axios.post(`http://localhost:3002/api/location_service/getAdminLocationID`, {
+                        id_user: id_user,
+                        id_location: id_location
+                    }, {
+                        headers: {
+                            'Authorization': `${authorization_token}`
+                        }
+                    }
+                ).catch( err => {
+                    console.log('Error while retrieving data from location service', err);
+                });
+                /** Retrieves datasets data from the inside_outside service */
+                business_activities_data = await axios.post(`http://localhost:3004/api/inside_outside/getAdminListBusinessActivities`, {
+                        id_user: id_user,
+                        id_location: id_location
+                    }, {
+                        headers: {
+                            'Authorization': `${authorization_token}`
+                        }
+                    }
+                ).catch( err => {
+                    console.log('Error while retrieving data from inside_outside');
+                    res.status(404).send('Error while retrieving data from inside_outside service', err);
+                });
+                let data3, data2
+                for(let locationID in location_data.data) {
+                    data3 = location_data[locationID].data
+                    for(let business_activities in business_activities_data.data){
+                        
+                        data2 =business_activities_data[business_activities].data
+                        
+                    }
+                }
+
+                data = data3.concat(data2)
+
+                res.status(200).json({data})
+                /** Waits for the service calls to complete and sends a respond to the client */
+
+
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            console.log(user.data.user.id_user)
+            console.log(req.body.id_user)
+            console.error('jwt id and username do not match');
+            res.status(403).send('username and jwt token do not match');
+        }
+    })(req, res, next);
+};
 //DONE
 exports.setAdminBusinessActivities = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
@@ -799,7 +1063,72 @@ exports.deleteAdminBusinessActivities = async (req, res, next) => {
         }
     })(req, res, next);
 };
+//TODO: Done but talk with jakob about structure
+exports.getAdminListZoneCategories = async (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
+            try {
 
+                const { id_user, id_location, req_id_user} = req.body;
+                const authorization_token = req.headers.authorization;
+                let location_data, data, user_data = {}
+
+                /** Retrieves data from the location service */
+                location_data = await axios.post(`http://localhost:3002/api/location_service/getAdminLocationID`, {
+                        id_user: id_user,
+                        id_location: id_location
+                    }, {
+                        headers: {
+                            'Authorization': `${authorization_token}`
+                        }
+                    }
+                ).catch( err => {
+                    console.log('Error while retrieving data from location service', err);
+                });
+                /** Retrieves datasets data from the zones service */
+                zones_data = await axios.post(`http://localhost:3007/api/zones/getAdminListZoneTypes`, {
+                        id_user: id_user,
+                        id_location: id_location
+                    }, {
+                        headers: {
+                            'Authorization': `${authorization_token}`
+                        }
+                    }
+                ).catch( err => {
+                    console.log('Error while retrieving data from zones');
+                    res.status(404).send('Error while retrieving data from zones service', err);
+                });
+                let data3, data2
+                for(let locationID in location_data.data) {
+                    data3 = location_data[locationID].data
+                    for(var zones in zones_data.data){
+                        
+                        data2 =zones_data[zones].data
+                        
+                    }
+                }
+
+                data = data3.concat(data2)
+
+                res.status(200).json({data})
+                /** Waits for the service calls to complete and sends a respond to the client */
+
+
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            console.log(user.data.user.id_user)
+            console.log(req.body.id_user)
+            console.error('jwt id and username do not match');
+            res.status(403).send('username and jwt token do not match');
+        }
+    })(req, res, next);
+};
 exports.setAdminZoneCategories = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -937,7 +1266,71 @@ exports.deleteAdminZoneCategories = async (req, res, next) => {
         }
     })(req, res, next);
 };
+//TODO: Done but talk with jakob about structure
+exports.getAdminListZones = async (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
+            try {
 
+                const { id_user, id_location, req_id_user} = req.body;
+                const authorization_token = req.headers.authorization;
+                let location_data, data, user_data = {}
+
+                /** Retrieves data from the location service */
+                location_data = await axios.post(`http://localhost:3002/api/location_service/getAdminLocationID`, {
+                        id_user: id_user,
+                        id_location: id_location
+                    }, {
+                        headers: {
+                            'Authorization': `${authorization_token}`
+                        }
+                    }
+                ).catch( err => {
+                    console.log('Error while retrieving data from location service', err);
+                });
+                /** Retrieves datasets data from the zones service */
+                zones_data = await axios.post(`http://localhost:3007/api/zones/getAdminListZones`, {
+                        id_user: id_user,
+                        id_location: id_location
+                    }, {
+                        headers: {
+                            'Authorization': `${authorization_token}`
+                        }
+                    }
+                ).catch( err => {
+                    console.log('Error while retrieving data from zones');
+                    res.status(404).send('Error while retrieving data from zones service', err);
+                });
+                let data3, data2
+                for(let locationID in location_data.data) {
+                    data3 = location_data[locationID].data
+                    for(var zones in zones_data.data){
+                        
+                        data2 =zones_data[zones].data
+                        
+                    }
+                }
+                data = data3.concat(data2)
+
+                res.status(200).json({data})
+                /** Waits for the service calls to complete and sends a respond to the client */
+
+
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            console.log(user.data.user.id_user)
+            console.log(req.body.id_user)
+            console.error('jwt id and username do not match');
+            res.status(403).send('username and jwt token do not match');
+        }
+    })(req, res, next);
+};
 exports.setAdminZones = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -1073,7 +1466,72 @@ exports.deleteAdminZones = async (req, res, next) => {
         }
     })(req, res, next);
 };
+//TODO: Done but talk with jakob about structure
+exports.getAdminListZoneTypes = async (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
+            try {
 
+                const { id_user, id_location, req_id_user} = req.body;
+                const authorization_token = req.headers.authorization;
+                let location_data, data, user_data = {}
+
+                /** Retrieves data from the location service */
+                location_data = await axios.post(`http://localhost:3002/api/location_service/getAdminLocationID`, {
+                        id_user: id_user,
+                        id_location: id_location
+                    }, {
+                        headers: {
+                            'Authorization': `${authorization_token}`
+                        }
+                    }
+                ).catch( err => {
+                    console.log('Error while retrieving data from location service', err);
+                });
+                /** Retrieves datasets data from the zones service */
+                zones_data = await axios.post(`http://localhost:3007/api/zones/getAdminListZoneTypes`, {
+                        id_user: id_user,
+                        id_location: id_location
+                    }, {
+                        headers: {
+                            'Authorization': `${authorization_token}`
+                        }
+                    }
+                ).catch( err => {
+                    console.log('Error while retrieving data from zones');
+                    res.status(404).send('Error while retrieving data from zones service', err);
+                });
+                let data3, data2
+                for(let locationID in location_data.data) {
+                    data3 = location_data[locationID].data
+                    for(var zones in zones_data.data){
+                        
+                        data2 =zones_data[zones].data
+                        
+                    }
+                }
+
+                data = data3.concat(data2)
+
+                res.status(200).json({data})
+                /** Waits for the service calls to complete and sends a respond to the client */
+
+
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            console.log(user.data.user.id_user)
+            console.log(req.body.id_user)
+            console.error('jwt id and username do not match');
+            res.status(403).send('username and jwt token do not match');
+        }
+    })(req, res, next);
+};
 exports.setAdminZoneTypes = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);

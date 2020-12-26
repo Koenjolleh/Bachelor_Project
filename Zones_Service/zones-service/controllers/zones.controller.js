@@ -41,7 +41,44 @@ exports.getZonesData = async (req, res, next) => {
     })(req, res, next);
 };
 
+/** Admin: Zones */
+exports.getAdminListZones = (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
+            try {
+                let  queryGetZones = '';
+                let data,  zonesList  = {};
 
+
+                // Check if user is admin
+                if (await isAdmin) {
+                    queryGetZones= queryBuilderZones.GetListZones(req.body.id_location);
+                    zonesList = await db.sequelize.query(queryGetZones, {type: db.sequelize.QueryTypes.SELECT});
+
+
+                    data = helperZones.JsonAdminListZones(zonesList)
+
+                    console.log('Zones: ', data);
+                    res.status(200).json({ data });
+                }
+                else {
+                    console.error('No zones found');
+                    res.status(404).send('No zones found');
+                }
+
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            console.error('Zone id or location id did not match');
+            res.status(403).send('Zone id or location id did not match');
+        }
+    })(req, res, next);
+}
 exports.setAdminZones = (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -145,6 +182,45 @@ exports.deleteAdminZones = (req, res, next) => {
         }
     })(req, res, next);
 }
+
+/** Admin: Zone Categories */
+exports.getAdminListZoneCategories = (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
+            try {
+                let  queryGetZoneCategories = '';
+                let data,  zoneCategoriesList  = {};
+
+
+                // Check if user is admin
+                if (await isAdmin) {
+                    queryGetZoneCategories= queryBuilderZones.GetListZoneCategories(req.body.id_location);
+                    zoneCategoriesList = await db.sequelize.query(queryGetZoneCategories, {type: db.sequelize.QueryTypes.SELECT});
+
+
+                    data = helper.JsonAdminListZoneCategories(zoneCategoriesList)
+
+                    console.log('Customer Activities: ', data);
+                    res.status(200).json({ data });
+                }
+                else {
+                    console.error('No zone categories found');
+                    res.status(404).send('No zone categories found');
+                }
+
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            console.error('Zone category id or location id did not match');
+            res.status(403).send('Zone category id or location id did not match');
+        }
+    })(req, res, next);
+}
 exports.setAdminZoneCategories = (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -245,6 +321,46 @@ exports.deleteAdminZoneCategories = (req, res, next) => {
         } else {
             console.error('Zone category id or location id did not match');
             res.status(403).send('Zone category id or location id did not match');
+        }
+    })(req, res, next);
+}
+
+/** Admin: Zone Types */
+
+exports.getAdminListZoneTypes = (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
+            try {
+                let  queryGetZoneTypes = '';
+                let data,  zoneTypesList  = {};
+
+
+                // Check if user is admin
+                if (await isAdmin) {
+                    queryGetZoneTypes= queryBuilderZones.GetListZoneTypes(req.body.id_location);
+                    zoneTypesList = await db.sequelize.query(queryGetZoneTypes, {type: db.sequelize.QueryTypes.SELECT});
+
+
+                    data = helperZones.JsonAdminListZoneTypes(zoneTypesList)
+
+                    console.log('Customer Activities: ', data);
+                    res.status(200).json({ data });
+                }
+                else {
+                    console.error('No zone types found');
+                    res.status(404).send('No zone types found');
+                }
+
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            console.error('Zone type id or location id did not match');
+            res.status(403).send('Zone type id or location id did not match');
         }
     })(req, res, next);
 }

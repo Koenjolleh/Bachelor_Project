@@ -1,6 +1,7 @@
 const middlewareValidator = require('../validators/middleware.validator');
 const schemas = require('../validators/schemas/location.schema');
-const adminSchemas = require('../validators/schemas/admin.schema')
+const adminSchemas = require('../validators/schemas/admin.schema');
+const { middlewareValidatorBody } = require('../../../Inside_Outside_Service/inside-outside-service/validators/middleware.validator');
 module.exports = function(app) {
 
     const locationController = require('../controllers/location.controller');
@@ -24,6 +25,9 @@ module.exports = function(app) {
     app.put('/api/location_service/updatedatasetforlocation', middlewareValidator.middlewareValidatorBody(schemas.updatedatasetforlocation,'body'), locationController.updateDatasetForLocation);
     app.delete('/api/location_service/removedatasetfromlocation', middlewareValidator.middlewareValidatorBody(schemas.removedatasetfromlocation,'body'), locationController.removeDatasetFromLocation);
 
+    //**Admin: Get Location ID */
+    app.post('/api/location_service/getAdminLocationID', middlewareValidator.middlewareValidatorBody(adminSchemas.locationID, 'body'), adminController.getAdminLocationID)
+    
     /** Admin: List all the locations from a specific Broker */
     app.post('/api/location_service/getAdminListAllLocationsFromBroker', middlewareValidator.middlewareValidatorBody(adminSchemas.GetAdminListAllLocationsFromBroker, 'body'),adminController.getAdminListAllLocationsFromBroker)
 
@@ -38,27 +42,6 @@ module.exports = function(app) {
 
     /** Admin: update schedule */
     app.post('/api/location_service/updateAdminSchedule', middlewareValidator.middlewareValidatorBody(adminSchemas.UpdateSchedule,'body'),adminController.updateAdminSchedule)
-
-    /** Admin: get list customer activities */
-    app.get('/api/location_service/getAdminListCustomerActivities/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListCustomerActivities,'body'),adminController.getAdminListCustomerActivities)
-
-    /** Admin: get list zone type */
-    app.get('/api/location_service/getAdminListZoneTypes/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListZoneTypes,'body'),adminController.getAdminListZoneTypes)
-
-
-    /** Admin: get list zone category */
-    app.get('/api/location_service/getAdminListZoneCategories/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListZoneCategories,'body'),adminController.getAdminListZoneCategories)
-
-
-    /** Admin: get list zones */
-    app.get('/api/location_service/getAdminListZones/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListZones,'body'),adminController.getAdminListZones)
-
-
-    /** Admin: get list outside activities */
-    app.get('/api/location_service/getAdminListOutsideActivities/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListOutsideActivities,'body'),adminController.getAdminListOutsideActivities)
-
-    /** Admin: get list business activities */
-    app.get('/api/location_service/getAdminListBusinessActivities/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListBusinessActivities,'body'),adminController.getAdminListBusinessActivities)
 
     /** Admin: get list locations */
     app.get('/api/location_service/getAdminListLocations/:id_user', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListLocations,'body'),adminController.getAdminListLocations)
