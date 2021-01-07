@@ -12,6 +12,9 @@ module.exports = function(app) {
     app.post('/api/inside_outside/getspecificrecentdatasets', middlewareValidator.middlewareValidatorBody(schemas.getspecificdatasetdata, 'body'), insideOutsideController.getSpecificRecentDatasetData);
     
 
+    /** Admin: get list customer activities */
+    app.post('/api/inside_outside/getAdminListCustomerActivities', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListCustomerActivities,'body'),insideOutsideController.getAdminListCustomerActivities)
+
     /** Admin: set customer activities */
     app.post('/api/inside_outside/setAdminCustomerActivities', middlewareValidator.middlewareValidatorBody(adminSchemas.SetCustomerActivities,'body'),insideOutsideController.setAdminCustomerActivities)
 
@@ -20,6 +23,10 @@ module.exports = function(app) {
 
     /** Admin: delete customer activities */
     app.post('/api/inside_outside/deleteAdminCustomerActivities', middlewareValidator.middlewareValidatorBody(adminSchemas.DeleteCustomerActivities,'body'),insideOutsideController.deleteAdminCustomerActivities)
+    
+    /** Admin: get list outside activities */
+    app.post('/api/inside_outside/getAdminListOutsideActivities', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListOutsideActivities,'body'),insideOutsideController.getAdminListOutsideActivities)
+
     /** Admin: set outside activities */
     app.post('/api/inside_outside/setAdminOutsideActivities', middlewareValidator.middlewareValidatorBody(adminSchemas.SetOutsideActivities,'body'),insideOutsideController.setAdminOutsideActivities)
 
@@ -28,6 +35,9 @@ module.exports = function(app) {
 
     /** Admin: delete outside activities */
     app.post('/api/inside_outside/deleteAdminOutsideActivities', middlewareValidator.middlewareValidatorBody(adminSchemas.DeleteOutsideActivities,'body'),insideOutsideController.deleteAdminOutsideActivities)
+
+    /** Admin: get list business activities */
+    app.post('/api/inside_outside/getAdminListBusinessActivities', middlewareValidator.middlewareValidatorBody(adminSchemas.GetListBusinessActivities,'body'),insideOutsideController.getAdminListBusinessActivities)
 
     /** Admin: set business activities */
     app.post('/api/inside_outside/setAdminBusinessActivities', middlewareValidator.middlewareValidatorBody(adminSchemas.SetBusinessActivities,'body'),insideOutsideController.setAdminBusinessActivities)

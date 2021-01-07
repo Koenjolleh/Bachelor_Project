@@ -6,8 +6,9 @@ const db = require('../../config/db.config');
 const Dataset = db.dataset;
 
 //Helpers
+const Op = Sequelize.Op;
+const helper = require('../helpers/admin.helper')
 const { sequelize } = require('../../config/db.config');
-const { Op } = require("sequelize");
 
 /** Used for the zone service call in the API Composer */
 exports.getDatasetData = async (req, res, next) => {
@@ -45,6 +46,46 @@ exports.getDatasetData = async (req, res, next) => {
         }
     })(req, res, next);
 };
+
+/** Admin: Customer activities */
+//DONE
+exports.getAdminListCustomerActivities = (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
+            try {
+                let  queryGetCustomerActivities = '';
+                let data,  customerActivitiesList  = {};
+
+
+                // Check if user is admin
+                if (await isAdmin) {
+                    queryGetCustomerActivities= queryBuilder.GetListCustomerActivities(req.body.id_location);
+                    customerActivitiesList = await db.sequelize.query(queryGetCustomerActivities, {type: db.sequelize.QueryTypes.SELECT});
+
+
+                    data = helper.JsonAdminListCustomerActivities(customerActivitiesList)
+
+                    console.log('Customer Activities: ', data);
+                    res.status(200).json({ data });
+                }
+                else {
+                    console.error('No customer activities found');
+                    res.status(404).send('No customer activities found');
+                }
+
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            console.error('customer activity id or location id did not match');
+            res.status(403).send('customer activity id or location id did not match');
+        }
+    })(req, res, next);
+}
 exports.setAdminCustomerActivities = (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -145,6 +186,45 @@ exports.deleteAdminCustomerActivities = (req, res, next) => {
         } else {
             console.error('customer activity id or location id did not match');
             res.status(403).send('customer activity id or location id did not match');
+        }
+    })(req, res, next);
+}
+
+/** Admin: Outside Activities */
+exports.getAdminListOutsideActivities = (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
+            try {
+                let  queryGetOutsideActivities = '';
+                let data,  outsideActivitiesList  = {};
+
+
+                // Check if user is admin
+                if (await isAdmin) {
+                    queryGetOutsideActivities= queryBuilder.GetListOutsideActivities(req.body.id_location);
+                    outsideActivitiesList = await db.sequelize.query(queryGetOutsideActivities, {type: db.sequelize.QueryTypes.SELECT});
+
+
+                    data = helper.JsonAdminListOutsideActivities(outsideActivitiesList)
+
+                    console.log('OutsideActivities: ', data);
+                    res.status(200).json({ data });
+                }
+                else {
+                    console.error('No outside activities found');
+                    res.status(404).send('No outside activities found');
+                }
+
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            console.error('Outside Activities id or location id did not match');
+            res.status(403).send('Outside Activities id or location id did not match');
         }
     })(req, res, next);
 }
@@ -252,7 +332,44 @@ exports.deleteAdminOutsideActivities = (req, res, next) => {
         }
     })(req, res, next);
 }
+/** Admin: Business Activities */
+exports.getAdminListBusinessActivities = (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
+            try {
+                let  queryGetBusinessActivities = '';
+                let data,  businessActivitiesList  = {};
 
+
+                // Check if user is admin
+                if (await isAdmin) {
+                    queryGetBusinessActivities= queryBuilder.GetListBusinessActivities(req.body.id_location);
+                    businessActivitiesList = await db.sequelize.query(queryGetBusinessActivities, {type: db.sequelize.QueryTypes.SELECT});
+
+
+                    data = helper.JsonAdminListBusinessActivities(businessActivitiesList)
+
+                    console.log('BusinessActivities: ', data);
+                    res.status(200).json({ data });
+                }
+                else {
+                    console.error('No business activities found');
+                    res.status(404).send('No business activities found');
+                }
+
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            console.error('Business Activities id or location id did not match');
+            res.status(403).send('Business Activities id or location id did not match');
+        }
+    })(req, res, next);
+}
 exports.setAdminBusinessActivities = (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);

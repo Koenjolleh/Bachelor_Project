@@ -1,4 +1,8 @@
 
+/** Admin: Activities Customer */
+exports.GetListCustomerActivities = (id_location) => {
+    return "SELECT a.id_activity_c, a.activity_number, a.activity_name, a.description FROM customer_activities a WHERE a.id_location = "+ id_location
+}
 exports.SetCustomerActivities = (activity_number, activity_name, description, id_location) => {
     return "INSERT INTO customer_activities (activity_number, activity_name, description, id_location) " +
         "VALUES (" + activity_number + ",'" + activity_name + "','" + description + "'," + id_location + ");";
@@ -14,33 +18,6 @@ exports.DeleteCustomerActivities = (id_activity_c) => {
 
 }
 
-/** Admin: Zone Categories */
-exports.GetListZoneCategories = (id_location) => {
-    return "SELECT " +
-        "a.id_zone_category, " +
-        "a.zone_category_number, " +
-        "a.zone_category_name, " +
-        "a.zone_category_color, " +
-        "a.description, " +
-        "b.id_location " +
-        "FROM zone_categories a " +
-        "INNER JOIN locations b ON a.id_location = b.id_location " +
-        "WHERE b.id_location = " + id_location
-}
-
-
-/** Admin: Zones */
-exports.GetListZones = (id_location) => {
-    return "SELECT " +
-        "a.id_zone, " +
-        "a.zone_number, " +
-        "a.zone_floor_number, " +
-        "a.description, " +
-        "b.id_location " +
-        "FROM zones a " +
-        "INNER JOIN locations b ON a.id_location = b.id_location " +
-        "WHERE b.id_location = " + id_location
-}
 
 /** Admin: Activities Outside */
 exports.GetListOutsideActivities = (id_location) => {
@@ -48,11 +25,9 @@ exports.GetListOutsideActivities = (id_location) => {
         "a.id_activity_out, " +
         "a.activity_number, " +
         "a.activity_name, " +
-        "a.description, " +
-        "b.id_location " +
+        "a.description " +
         "FROM outside_activities a " +
-        "INNER JOIN locations b ON a.id_location = b.id_location " +
-        "WHERE b.id_location = " + id_location
+        "WHERE a.id_location = " + id_location
 }
 exports.SetOutsideActivities = (activity_number, activity_name, description, id_location) => {
     return "INSERT INTO outside_activities (activity_number, activity_name, description, id_location) " +
@@ -74,11 +49,9 @@ exports.GetListBusinessActivities = (id_location) => {
         "a.id_activity_b, " +
         "a.activity_number, " +
         "a.activity_name, " +
-        "a.description, " +
-        "b.id_location " +
+        "a.description " +
         "FROM business_activities a " +
-        "INNER JOIN locations b ON a.id_location = b.id_location " +
-        "WHERE b.id_location = " + id_location
+        "WHERE a.id_location = " + id_location
 }
 exports.SetBusinessActivities = (activity_number, activity_name, description, id_location) => {
     return "INSERT INTO business_activities (activity_number, activity_name, description, id_location) " +

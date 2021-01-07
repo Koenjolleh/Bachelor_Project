@@ -3,6 +3,11 @@ const constants = require('./constants.schema');
 
 const schemas = {
 
+    GetListZones: Joi.object().keys({
+        id_location: constants.id_location_validation,
+        id_user: constants.id_user_validation,
+
+    }),
      SetZones: Joi.object().keys({
          id_user: constants.id_user_validation,
         id_location: constants.id_location_validation,
@@ -25,6 +30,11 @@ const schemas = {
          id_zone: Joi.number().required()
     }),
 
+    GetListZoneTypes: Joi.object().keys({
+        id_location: constants.id_location_validation,
+        id_user: constants.id_user_validation,
+
+    }),
 
      SetZoneTypes: Joi.object().keys({
          id_user: constants.id_user_validation,
@@ -48,6 +58,12 @@ const schemas = {
          id_zone_type: Joi.number().required()
     }),
 
+
+    GetListZoneCategories: Joi.object().keys({
+        id_location: constants.id_location_validation,
+        id_user: constants.id_user_validation,
+
+    }),
 
      SetZoneCategories: Joi.object().keys({
          id_user: constants.id_user_validation,

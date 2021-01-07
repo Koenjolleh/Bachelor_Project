@@ -7,7 +7,40 @@ const db = require('../../config/db.config');
 //Helpers
 const queryBuilder = require('../query_builders/admin.query_builder');
 const helper = require('../helpers/admin.helper');
+exports.getAdminLocationID = (req,res,next) => {
+    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+        if (err) console.log(err);
+        if (info !== undefined) {
+            console.log(info.message);
+            res.status(401).send(info.message);
+        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
+            try {
+                let  queryGetLocationID = '';
+                let data,  locationID  = {};
 
+
+                // Check if user is admin
+                //TODO: add isRole
+                    queryGetLocationID= queryBuilder.getLocationID(req.body.id_location);
+                    locationID = await db.sequelize.query(queryGetLocationID, {type: db.sequelize.QueryTypes.SELECT});
+
+
+                    data = helper.JsonAdminGetLocationID(locationID)
+
+                    console.log('LocationID: ', data);
+                    res.status(200).json({ data });
+
+
+
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            console.error('location id did not match');
+            res.status(403).send('location id did not match');
+        }
+    })(req, res, next);
+}
 //Send body with "name":"broker"
 //DONE
 exports.getAdminListAllLocationsFromBroker = async (req, res, next) => {
@@ -47,7 +80,7 @@ exports.getAdminListAllLocationsFromBroker = async (req, res, next) => {
         }
     })(req, res, next);
 }
-
+//TODO: Not done
 exports.shareLocationWithOwners = async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, async (err, user, info) => {
         if (err) console.log(err);
@@ -181,243 +214,6 @@ exports.updateAdminSchedule = (req,res,next) => {
         } else {
             console.error('Schedule or location id did not match');
             res.status(403).send('Schedule or location id did not match');
-        }
-    })(req, res, next);
-}
-
-/** Admin: Customer activities */
-exports.getAdminListCustomerActivities = (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
-        if (err) console.log(err);
-        if (info !== undefined) {
-            console.log(info.message);
-            res.status(401).send(info.message);
-        } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
-            try {
-                let  queryGetCustomerActivities = '';
-                let data,  customerActivitiesList  = {};
-
-
-                // Check if user is admin
-                if (await isAdmin) {
-                    queryGetCustomerActivities= queryBuilder.GetListCustomerActivities(req.body.id_location);
-                    customerActivitiesList = await db.sequelize.query(queryGetCustomerActivities, {type: db.sequelize.QueryTypes.SELECT});
-
-
-                    data = helper.JsonAdminListCustomerActivities(customerActivitiesList)
-
-                    console.log('Customer Activities: ', data);
-                    res.status(200).json({ data });
-                }
-                else {
-                    console.error('No customer activities found');
-                    res.status(404).send('No customer activities found');
-                }
-
-            } catch (e) {
-                console.error(e);
-            }
-        } else {
-            console.error('customer activity id or location id did not match');
-            res.status(403).send('customer activity id or location id did not match');
-        }
-    })(req, res, next);
-}
-
-/** Admin: Zone Types */
-exports.getAdminListZoneTypes = (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
-        if (err) console.log(err);
-        if (info !== undefined) {
-            console.log(info.message);
-            res.status(401).send(info.message);
-                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
-            try {
-                let  queryGetZoneTypes = '';
-                let data,  zoneTypesList  = {};
-
-
-                // Check if user is admin
-                if (await isRole("admin", user.id_user)) {
-                    queryGetZoneTypes= queryBuilder.GetListZoneTypes(req.body.id_location);
-                    zoneTypesList = await db.sequelize.query(queryGetZoneTypes, {type: db.sequelize.QueryTypes.SELECT});
-
-
-                    data = helper.JsonAdminListZoneTypes(zoneTypesList)
-
-                    console.log('Customer Activities: ', data);
-                    res.status(200).json({ data });
-                }
-                else {
-                    console.error('No zone types found');
-                    res.status(404).send('No zone types found');
-                }
-
-            } catch (e) {
-                console.error(e);
-            }
-        } else {
-            console.error('Zone type id or location id did not match');
-            res.status(403).send('Zone type id or location id did not match');
-        }
-    })(req, res, next);
-}
-
-/** Admin: Zone Categories */
-exports.getAdminListZoneCategories = (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
-        if (err) console.log(err);
-        if (info !== undefined) {
-            console.log(info.message);
-            res.status(401).send(info.message);
-                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
-            try {
-                let  queryGetZoneCategories = '';
-                let data,  zoneCategoriesList  = {};
-
-
-                // Check if user is admin
-                if (await isRole("admin", user.id_user)) {
-                    queryGetZoneCategories= queryBuilder.GetListZoneCategories(req.body.id_location);
-                    zoneCategoriesList = await db.sequelize.query(queryGetZoneCategories, {type: db.sequelize.QueryTypes.SELECT});
-
-
-                    data = helper.JsonAdminListZoneCategories(zoneCategoriesList)
-
-                    console.log('Customer Activities: ', data);
-                    res.status(200).json({ data });
-                }
-                else {
-                    console.error('No zone categories found');
-                    res.status(404).send('No zone categories found');
-                }
-
-            } catch (e) {
-                console.error(e);
-            }
-        } else {
-            console.error('Zone category id or location id did not match');
-            res.status(403).send('Zone category id or location id did not match');
-        }
-    })(req, res, next);
-}
-
-
-
-/** Admin: Zones */
-exports.getAdminListZones = (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
-        if (err) console.log(err);
-        if (info !== undefined) {
-            console.log(info.message);
-            res.status(401).send(info.message);
-                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
-            try {
-                let  queryGetZones = '';
-                let data,  zonesList  = {};
-
-
-                // Check if user is admin
-                if (await isRole("admin", user.id_user)) {
-                    queryGetZones= queryBuilder.GetListZones(req.body.id_location);
-                    zonesList = await db.sequelize.query(queryGetZones, {type: db.sequelize.QueryTypes.SELECT});
-
-
-                    data = helper.JsonAdminListZones(zonesList)
-
-                    console.log('Zones: ', data);
-                    res.status(200).json({ data });
-                }
-                else {
-                    console.error('No zones found');
-                    res.status(404).send('No zones found');
-                }
-
-            } catch (e) {
-                console.error(e);
-            }
-        } else {
-            console.error('Zone id or location id did not match');
-            res.status(403).send('Zone id or location id did not match');
-        }
-    })(req, res, next);
-}
-
-
-/** Admin: Outside Activities */
-exports.getAdminListOutsideActivities = (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
-        if (err) console.log(err);
-        if (info !== undefined) {
-            console.log(info.message);
-            res.status(401).send(info.message);
-                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
-            try {
-                let  queryGetOutsideActivities = '';
-                let data,  outsideActivitiesList  = {};
-
-
-                // Check if user is admin
-                if (await isRole("admin", user.id_user)) {
-                    queryGetOutsideActivities= queryBuilder.GetListOutsideActivities(req.body.id_location);
-                    outsideActivitiesList = await db.sequelize.query(queryGetOutsideActivities, {type: db.sequelize.QueryTypes.SELECT});
-
-
-                    data = helper.JsonAdminListOutsideActivities(outsideActivitiesList)
-
-                    console.log('OutsideActivities: ', data);
-                    res.status(200).json({ data });
-                }
-                else {
-                    console.error('No outside activities found');
-                    res.status(404).send('No outside activities found');
-                }
-
-            } catch (e) {
-                console.error(e);
-            }
-        } else {
-            console.error('Outside Activities id or location id did not match');
-            res.status(403).send('Outside Activities id or location id did not match');
-        }
-    })(req, res, next);
-}
-
-/** Admin: Business Activities */
-exports.getAdminListBusinessActivities = (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, async (err, user, info) => {
-        if (err) console.log(err);
-        if (info !== undefined) {
-            console.log(info.message);
-            res.status(401).send(info.message);
-                } else if (parseInt(user.data.user.id_user,10) === parseInt(req.body.id_user)) {
-            try {
-                let  queryGetBusinessActivities = '';
-                let data,  businessActivitiesList  = {};
-
-
-                // Check if user is admin
-                if (await isRole("admin", user.id_user)) {
-                    queryGetBusinessActivities= queryBuilder.GetListBusinessActivities(req.body.id_location);
-                    businessActivitiesList = await db.sequelize.query(queryGetBusinessActivities, {type: db.sequelize.QueryTypes.SELECT});
-
-
-                    data = helper.JsonAdminListBusinessActivities(businessActivitiesList)
-
-                    console.log('BusinessActivities: ', data);
-                    res.status(200).json({ data });
-                }
-                else {
-                    console.error('No business activities found');
-                    res.status(404).send('No business activities found');
-                }
-
-            } catch (e) {
-                console.error(e);
-            }
-        } else {
-            console.error('Business Activities id or location id did not match');
-            res.status(403).send('Business Activities id or location id did not match');
         }
     })(req, res, next);
 }
