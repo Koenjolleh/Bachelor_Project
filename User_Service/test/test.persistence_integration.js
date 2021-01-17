@@ -38,8 +38,8 @@ describe('Persistence integration tests', function() {
     const user2 = fake_user2;
     let insertedUser1, insertedUser2 = {};
 
-    insertedUser1 = create_user(user1);
-    insertedUser2 = create_user(user2);
+    insertedUser1 = await create_user(user1);
+    insertedUser2 = await create_user(user2);
 
     Promise.all([insertedUser1, insertedUser2]).then( results => {
       insertedUser1 = results[0];
@@ -55,8 +55,9 @@ describe('Persistence integration tests', function() {
   /** Make a test that checks if all users have been created */
   it('should check that the two users have been created with associations properly', async () => {
 
-    const query = queryBuilder.GetAllUsersWithARole();
-    const users = await db.sequelize.query(query, {type: db.sequelize.QueryTypes.SELECT});
+    
+    const queryString = queryBuilder.GetAllUsersWithARole();
+    const users = await db.sequelize.query(queryString, {type: db.sequelize.QueryTypes.SELECT});
 
     expect(users).to.have.lengthOf(2);
 

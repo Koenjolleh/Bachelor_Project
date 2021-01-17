@@ -1,7 +1,7 @@
 const middlewareValidator = require('../validators/middleware.validator');
 const schemas = require('../validators/schemas/location.schema');
 const adminSchemas = require('../validators/schemas/admin.schema');
-const { middlewareValidatorBody } = require('../../../Inside_Outside_Service/inside-outside-service/validators/middleware.validator');
+// const { middlewareValidatorBody } = require('../../../Inside_Outside_Service/inside-outside-service/validators/middleware.validator');
 module.exports = function(app) {
 
     const locationController = require('../controllers/location.controller');

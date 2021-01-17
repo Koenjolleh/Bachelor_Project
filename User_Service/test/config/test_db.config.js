@@ -22,8 +22,8 @@ db.role = require('../../model/role.model')(sequelize, Sequelize);
 
 
 /** MANAGE USER AND ROLES */ 
-db.role.belongsToMany(db.user, { through: 'user_role', foreignKey: 'id_role', otherKey: 'id_user'});
-db.user.belongsToMany(db.role, { through: 'user_role', foreignKey: 'id_user', otherKey: 'id_role'});
+db.role.belongsToMany(db.user, { through: 'user_roles', foreignKey: 'id_role', otherKey: 'id_user'});
+db.user.belongsToMany(db.role, { through: 'user_roles', foreignKey: 'id_user', otherKey: 'id_role'});
 
 
 module.exports = db;
